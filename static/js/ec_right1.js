@@ -1,4 +1,4 @@
-var ec_right1 = echarts.init(document.getElementById('r1'),"dark");
+var ec_right1 = echarts.init(document.getElementById('r1'));
 var ec_right1_option = {
 	//标题样式
 	title : {

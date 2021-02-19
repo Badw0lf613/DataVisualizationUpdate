@@ -70,3 +70,15 @@ def get_r2_data(self):
 
 def get_time(self):
     return HttpResponse((json.dumps(utils.get_time()))) # 返回的是json
+
+def china(request):
+    print(">>>china")
+    return render(request, 'china.html')
+
+def get_c1_data_china(self):
+    print(">>>get_c2_data_china")
+    res = []
+    for tup in utils.get_c2_data():
+        # print(tup)
+        res.append({"name":tup[0],"value":int(tup[1])})
+    return JsonResponse({"data":res})

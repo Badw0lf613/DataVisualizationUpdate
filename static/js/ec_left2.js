@@ -1,4 +1,4 @@
-var ec_left2 = echarts.init(document.getElementById('l2'), "dark");
+var ec_left2 = echarts.init(document.getElementById('l2'));
 var ec_left2_Option = {
 	tooltip: {
 		trigger: 'axis',

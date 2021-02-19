@@ -21,10 +21,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.main),  # 主页面
     path('time', views.get_time, name="time"),  # 获取时间
-    path('c1', views.get_c1_data, name="c1"),  # 获取时间
-    path('c2', views.get_c2_data, name="c2"),  # 获取时间
-    path('l1', views.get_l1_data, name="l1"),  # 获取时间
-    path('l2', views.get_l2_data, name="l2"),  # 获取时间
-    path('r1', views.get_r1_data, name="r1"),  # 获取时间
-    path('r2', views.get_r2_data, name="r2"),  # 获取时间
+    path('c1', views.get_c1_data, name="c1"),  # 获取c1
+    path('c2', views.get_c2_data, name="c2"),  # 获取c2
+    path('l1', views.get_l1_data, name="l1"),  # 获取l1
+    path('l2', views.get_l2_data, name="l2"),  # 获取l2
+    path('r1', views.get_r1_data, name="r1"),  # 获取r1
+    path('r2', views.get_r2_data, name="r2"),  # 获取r2
+    path('china', views.china, name="china"),  # 主页面
 ]

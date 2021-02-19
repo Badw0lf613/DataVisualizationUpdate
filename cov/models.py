@@ -11,7 +11,7 @@ class Details(models.Model): # 详情表
 
     # 主键为id
     class Meta:
-        managed = False
+        managed = True
         db_table = 'details'
 
 
@@ -27,5 +27,41 @@ class History(models.Model):
     dead_add = models.IntegerField(blank=True, null=True)               # 当日新增死亡
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'history'
+
+class History_China(models.Model):
+    dateId = models.DateTimeField(blank=True, null=True)                    # 日期
+    confirmedCount = models.IntegerField(blank=True, null=True)             # 累计确诊
+    confirmedIncr = models.IntegerField(blank=True, null=True)              # 新增确诊
+    curedCount = models.IntegerField(blank=True, null=True)                 # 累计治愈
+    curedIncr = models.IntegerField(blank=True, null=True)                  # 新增治愈
+    currentConfirmedCount = models.IntegerField(blank=True, null=True)      # 累计现有确诊
+    currentConfirmedIncr = models.IntegerField(blank=True, null=True)       # 新增现有确诊
+    deadCount = models.IntegerField(blank=True, null=True)                  # 累计死亡
+    deadIncr = models.IntegerField(blank=True, null=True)                   # 新增死亡
+    suspectedCount = models.IntegerField(blank=True, null=True)             # 累计疑似
+    suspectedCountIncr = models.IntegerField(blank=True, null=True)         # 新增疑似
+
+    class Meta:
+        managed = True
+        db_table = 'history_china'
+
+
+class History_China_Prov(models.Model):
+    dateId = models.DateTimeField(blank=True, null=True)                    # 日期
+    provinceName = models.CharField(max_length=50, blank=True, null=True)   # 省
+    confirmedCount = models.IntegerField(blank=True, null=True)             # 累计确诊
+    confirmedIncr = models.IntegerField(blank=True, null=True)              # 新增确诊
+    curedCount = models.IntegerField(blank=True, null=True)                 # 累计治愈
+    curedIncr = models.IntegerField(blank=True, null=True)                  # 新增治愈
+    currentConfirmedCount = models.IntegerField(blank=True, null=True)      # 累计现有确诊
+    currentConfirmedIncr = models.IntegerField(blank=True, null=True)       # 新增现有确诊
+    deadCount = models.IntegerField(blank=True, null=True)                  # 累计死亡
+    deadIncr = models.IntegerField(blank=True, null=True)                   # 新增死亡
+    suspectedCount = models.IntegerField(blank=True, null=True)             # 累计疑似
+    suspectedCountIncr = models.IntegerField(blank=True, null=True)         # 新增疑似
+
+    class Meta:
+        managed = True
+        db_table = 'history_china_prov'

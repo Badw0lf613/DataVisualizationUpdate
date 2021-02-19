@@ -1,4 +1,4 @@
-var ec_left1 = echarts.init(document.getElementById('l1'), "dark");
+var ec_left1 = echarts.init(document.getElementById('l1'), "macarons");
 
 var ec_left1_Option = {
 	//标题样式

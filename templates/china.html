@@ -1,0 +1,527 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>疫情数据可视化</title>
+        <link href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+        <style type="text/css">
+            body {
+                margin: 0;
+                background: #FFFFE0;
+            }
+            #title {
+                position: absolute;
+                width: 40%;
+                height: 10%;
+                top: 0;
+                left: 30%;
+                color: #000000;
+                font-size: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            #tim {
+                position: absolute;
+                {#width: 30%;#}
+                height: 10%;
+                right: 2%;
+                top: 5%;
+                color: #000000;
+                font-size: 20px;
+            }
+            #c1 {
+                position: absolute;
+                width: 40%;
+                height: 25%;
+                top: 10%;
+                left: 30%;
+                color: #000000
+                /* background: #777777; */
+            }
+            .num {
+                width: 25%;
+                float: left;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #000000;
+                font-size: 20px;
+                /*margin-top: 20px;*/
+            }
+            .txt {
+                width: 25%;
+                float: left;
+                font-family: "微软雅黑 Light";
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .txt h2 {
+                margin: 0;
+            }
+            #c2 {
+                position: absolute;
+                width: 40%;
+                height: 65%;
+                top: 35%;
+                left: 30%;
+                /*background: red;*/
+            }
+            #l1 {
+                position: absolute;
+                width: 30%;
+                height: 45%;
+                top: 10%;
+                left: 0;
+                /*background: #666666;*/
+            }
+            #l2 {
+                position: absolute;
+                width: 30%;
+                height: 45%;
+                top: 55%;
+                left: 0;
+                /*background: #777;*/
+            }
+            #r1 {
+                position: absolute;
+                width: 30%;
+                height: 45%;
+                top: 10%;
+                right: 0;
+                /*background: #666666;*/
+            }
+            #r2 {
+                position: absolute;
+                width: 30%;
+                height: 45%;
+                top: 55%;
+                right: 0;
+                /*background: #777;*/
+            }
+            /* 此处是设置自动匹配横屏，以适应手机显示 使用下面定义的id:gyroContain   */
+            @media screen and (orientation: portrait) {
+                html{
+                    width : 100vmin;
+                    height : 100vmax;
+                }
+                body{
+                    width : 100vmin;
+                    height : 100vmax;
+                }
+                #gyroContain{
+                    width : 100vmax;
+                    height : 100vmin;
+                    transform-origin: top left;
+                    transform: rotate(90deg) translate(0,-100vmin);
+                }
+              }
+            @media screen and (orientation: landscape) {
+                html{
+                    width : 100vmax;
+                    height : 100vmin;
+                }
+                body{
+                    width : 100vmax;
+                    height : 100vmin;
+                }
+                #gyroContain{
+                    width : 100vmax;
+                    height : 100vmin;
+                }
+            }
+
+        </style>
+	</head>
+	<body>
+		<div id="gyroContain">
+            <li class="dropdown" style="width: 40%;height: 0;top: 0;left: 30%;display: inline-block;">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <span style="color: #000000;text-align: center;font-size: 40px;display: flex;align-items: center;justify-content: center;">
+                        全国疫情实时追踪
+                    </span>
+
+                </a>
+                <ul class="dropdown-menu" style="background: #cccccc;width: 40%;top: 50px;left: 30%;">
+                    <li style="background: #cccccc;">
+                        <a href="{% url 'china' %}">
+                            <span style="color: #000000;text-align: center;font-size: 40px; display: flex;align-items: center;justify-content: center;">
+                                实时追踪
+                            </span>
+                        </a>
+                    </li>
+                    <li style="background: #cccccc;">
+                        <a href="{% url 'china' %}">
+                            <span style="color: #000000;text-align: center;font-size: 40px; display: flex;align-items: center;justify-content: center;">
+                                完整过程
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+			<div id="tim"></div>
+			<div id="l1" >l1</div>
+			<div id="l2">l2</div>
+            {#c1数据总览#}
+			<div id="c1">
+				<div class="num"><h1></h1></div>
+				<div class="num"><h1></h1></div>
+				<div class="num"><h1></h1></div>
+				<div class="num"><h1></h1></div>
+				<div class="txt"><h2>累计确诊</h2></div>
+				<div class="txt"><h2>剩余疑似</h2></div>
+				<div class="txt"><h2>累计治愈</h2></div>
+				<div class="txt"><h2>累计死亡</h2></div>
+			</div>
+			<div id="c2">c2</div>
+			<div id="r1">r1</div>
+			<div id="r2">r2</div>
+            <script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+            <script src="{% static 'js/echarts.min.js' %}"></script>
+            <script src="{% static 'js/china.js' %}"></script>
+            {#l1全国累计趋势#}
+            <script type="text/javascript">
+                var ec_left1 = echarts.init(document.getElementById('l1'), "vintage");
+
+                var ec_left1_Option = {
+                    //标题样式
+                    title: {
+                        text: "全国累计趋势",
+                        textStyle: {
+                            color: '#000000',
+                        },
+                        left: 'left',
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        //指示器
+                        axisPointer: {
+                            type: 'line',
+                            lineStyle: {
+                                color: '#7171C6'
+                            }
+                        },
+                    },
+                    legend: {
+                        data: ['累计确诊', '现有疑似', "累计治愈", "累计死亡"],
+                        left: "right"
+                    },
+
+                    //图形位置
+                    grid: {
+                        left: '4%',
+                        right: '6%',
+                        bottom: '4%',
+                        top: 50,
+                        containLabel: true
+                    },
+                    xAxis: [{
+                        type: 'category',
+                        //x轴坐标点开始与结束点位置都不在最边缘
+                        // boundaryGap : true,
+                        data: []//['01.20', '01.21', '01.22']
+                    }],
+                    yAxis: [{
+                        type: 'value',
+                        //y轴字体设置
+                        axisLabel: {
+                            show: true,
+                            color: 'white',
+                            fontSize: 12,
+                            formatter: function(value) {
+                                if (value >= 1000) {
+                                    value = value / 1000 + 'k';
+                                }
+                                return value;
+                            }
+                        },
+                        //y轴线设置显示
+                        axisLine: {
+                            show: true
+                        },
+                        //与x轴平行的线样式
+                        splitLine: {
+                            show: true,
+                            lineStyle: {
+                                color: '#17273B',
+                                width: 1,
+                                type: 'solid',
+                            }
+                        }
+                    }],
+                    series: [{
+                        name: "累计确诊",
+                        type: 'line',
+                        smooth: true,
+                        data: []//[260, 406, 529]
+                    }, {
+                        name: "现有疑似",
+                        type: 'line',
+                        smooth: true,
+                        data: []//[54, 37, 3935]
+                    },
+                        {
+                        name: "累计治愈",
+                        type: 'line',
+                        smooth: true,
+                        data: []//[25, 25, 25]
+                    }, {
+                        name: "累计死亡",
+                        type: 'line',
+                        smooth: true,
+                        data: []//[6, 9, 17]
+                    }]
+                };
+
+                ec_left1.setOption(ec_left1_Option)
+
+            </script>
+            {#l2全国新增趋势#}
+            <script type="text/javascript">
+                var ec_left2 = echarts.init(document.getElementById('l2'), "vintage");
+                var ec_left2_Option = {
+                    tooltip: {
+                        trigger: 'axis',
+                        //指示器
+                        axisPointer: {
+                            type: 'line',
+                            lineStyle: {
+                                color: '#7171C6'
+                            }
+                        },
+                    },
+                    legend: {
+                        data: ['新增确诊', '新增疑似'],
+                        left: "right"
+                    },
+                    //标题样式
+                    title: {
+                        text: "全国新增趋势",
+                        textStyle: {
+                            color: '#000000',
+                        },
+                        left: 'left'
+                    },
+                    //图形位置
+                    grid: {
+                        left: '4%',
+                        right: '6%',
+                        bottom: '4%',
+                        top: 50,
+                        containLabel: true
+                    },
+                    xAxis: [{
+                        type: 'category',
+                        //x轴坐标点开始与结束点位置都不在最边缘
+                        // boundaryGap : true,
+
+                        data: []
+                    }],
+                    yAxis: [{
+                        type: 'value',
+                        //y轴字体设置
+
+                        //y轴线设置显示
+                        axisLine: {
+                            show: true
+                        },
+                        axisLabel: {
+                            show: true,
+                            color: 'white',
+                            fontSize: 12,
+                            formatter: function(value) {
+                                if (value >= 1000) {
+                                    value = value / 1000 + 'k';
+                                }
+                                return value;
+                            }
+                        },
+                        //与x轴平行的线样式
+                        splitLine: {
+                            show: true,
+                            lineStyle: {
+                                color: '#17273B',
+                                width: 1,
+                                type: 'solid',
+                            }
+                        }
+                    }],
+                    series: [{
+                        name: "新增确诊",
+                        type: 'line',
+                        smooth: true,
+                        data: []
+                    }, {
+                        name: "新增疑似",
+                        type: 'line',
+                        smooth: true,
+                        data: []
+                    }]
+                };
+                ec_left2.setOption(ec_left2_Option)
+            </script>
+            {#c2全国累计确诊#}
+            <script type="text/javascript">
+                var ec_center = echarts.init(document.getElementById('c2'), "vintage");
+
+                var mydata = []
+
+                var ec_center_option = {
+                    title: {
+                        text: '全国',
+                        subtext: '',
+                        x: 'left'
+                    },
+                    tooltip: {
+                        trigger: 'item'
+                    },
+                    //左侧小导航图标
+                    visualMap: {
+                        show: true,
+                        x: 'left',
+                        y: 'bottom',
+                        textStyle: {
+                            fontSize: 8,
+                        },
+                        splitList: [{ start: 1,end: 9 },
+                            {start: 10, end: 99 },
+                            { start: 100, end: 999 },
+                            {  start: 1000, end: 9999 },
+                            { start: 10000 }],
+                        color: ['#8A3310', '#C64918', '#E55B25', '#F2AD92', '#F9DCD1']
+                    },
+                    //配置属性
+                    series: [{
+                        name: '累计确诊人数',
+                        type: 'map',
+                        mapType: 'china',
+                        roam: false, //拖动和缩放
+                        itemStyle: {
+                            normal: {
+                                borderWidth: .5, //区域边框宽度
+                                borderColor: '#009fe8', //区域边框颜色
+                                areaColor: "#ffefd5", //区域颜色
+                            },
+                            emphasis: { //鼠标滑过地图高亮的相关设置
+                                borderWidth: .5,
+                                borderColor: '#4b0082',
+                                areaColor: "#fff",
+                            }
+                        },
+                        label: {
+                            normal: {
+                                show: true, //省份名称
+                                fontSize: 8,
+                            },
+                            emphasis: {
+                                show: true,
+                                fontSize: 8,
+                            }
+                        },
+                        data:[] //mydata //数据
+                    }]
+                };
+                ec_center.setOption(ec_center_option)
+            </script>
+            {#r1全国新增确诊病例数量TOP5#}
+            <script type="text/javascript">
+                var ec_right1 = echarts.init(document.getElementById('r1'), "vintage");
+                var ec_right1_option = {
+                    //标题样式
+                    title : {
+                        text : "全国新增确诊病例数量TOP5",
+                        textStyle : {
+                            color : '#000000',
+                        },
+                        left : 'left'
+                    },
+                      color: ['#3398DB'],
+                        tooltip: {
+                            trigger: 'axis',
+                            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                    xAxis: {
+                        type: 'category',
+                        data: []
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [{
+                        data: [],
+                        type: 'bar',
+                        barMaxWidth:"50%"
+                    }]
+                };
+                ec_right1.setOption(ec_right1_option)
+            </script>
+            {#r2全国新增病例地图#}
+            <script type="text/javascript">
+                var ec_right2 = echarts.init(document.getElementById('r2'), "vintage");
+                var mydata = [{'name': '上海', 'value': 318}, {'name': '云南', 'value': 162}]
+                var ec_right2_option = {
+                    title: {
+                        text: '今日新增病例地图',
+                        subtext: '',
+                        x: 'left'
+                    },
+                    tooltip: {
+                        trigger: 'item'
+                    },
+                    //左侧小导航图标
+                    visualMap: {
+                        show: true,
+                        x: 'left',
+                        y: 'bottom',
+                        textStyle: {
+                            fontSize: 8,
+                        },
+                        splitList: [{ start: 0,end: 0 },
+                            {start: 1, end: 5 },
+                            { start: 5, end: 9 },
+                            {  start: 10, end: 50 },
+                            { start: 50 }],
+                        color: ['#8A3310', '#C64918', '#E55B25', '#F2AD92', '#FFFFFF']
+                    },
+                    //配置属性
+                    series: [{
+                        name: '新增确诊人数',
+                        type: 'map',
+                        mapType: 'china',
+                        roam: false, //拖动和缩放
+                        itemStyle: {
+                            normal: {
+                                borderWidth: .5, //区域边框宽度
+                                borderColor: '#009fe8', //区域边框颜色
+                                areaColor: "#ffefd5", //区域颜色
+                            },
+                            emphasis: { //鼠标滑过地图高亮的相关设置
+                                borderWidth: .5,
+                                borderColor: '#4b0082',
+                                areaColor: "#fff",
+                            }
+                        },
+                        label: {
+                            normal: {
+                                show: true, //省份名称
+                                fontSize: 8,
+                            },
+                            emphasis: {
+                                show: true,
+                                fontSize: 8,
+                            }
+                        },
+                        data:[] //mydata //数据
+                    }]
+                };
+                ec_right2.setOption(ec_right2_option)
+            </script>
+            <script src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
+            <script src="{% static 'js/controller.js' %}"></script>
+		</div>
+	</body>
+</html>

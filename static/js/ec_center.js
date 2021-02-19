@@ -4,8 +4,8 @@ var mydata = []
 
 var ec_center_option = {
     title: {
-        text: '全国累计确诊地图',
-        subtext: '',
+        text: '全国',
+        subtext: '111',
         x: 'left'
     },
     tooltip: {

@@ -110,5 +110,13 @@ def get_r2_data():
     res = query(sql)
     return res
 
+def get_c1_data_china():
+    sql = "select province,sum(confirm) from details " \
+          "where update_time=(select update_time from details " \
+          "order by update_time desc limit 1) " \
+          "group by province"
+    res = query(sql)
+    return res
+
 if __name__ == "__main__":
     print(get_c1_data())
