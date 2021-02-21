@@ -140,13 +140,13 @@
             <li class="dropdown" style="width: 40%;height: 0;top: 0;left: 30%;display: inline-block;">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <span style="color: #000000;text-align: center;font-size: 40px;display: flex;align-items: center;justify-content: center;">
-                        全国疫情实时追踪
+                        全国疫情完整过程
                     </span>
 
                 </a>
                 <ul class="dropdown-menu" style="background: #cccccc;width: 40%;top: 50px;left: 30%;">
                     <li style="background: #cccccc;">
-                        <a href="{% url 'china' %}">
+                        <a href="{% url 'main' %}">
                             <span style="color: #000000;text-align: center;font-size: 40px; display: flex;align-items: center;justify-content: center;">
                                 实时追踪
                             </span>
@@ -171,7 +171,7 @@
 				<div class="num"><h1></h1></div>
 				<div class="num"><h1></h1></div>
 				<div class="txt"><h2>累计确诊</h2></div>
-				<div class="txt"><h2>剩余疑似</h2></div>
+				<div class="txt"><h2>累计疑似</h2></div>
 				<div class="txt"><h2>累计治愈</h2></div>
 				<div class="txt"><h2>累计死亡</h2></div>
 			</div>
@@ -205,7 +205,7 @@
                         },
                     },
                     legend: {
-                        data: ['累计确诊', '现有疑似', "累计治愈", "累计死亡"],
+                        data: ['累计确诊', '累计疑似', "累计治愈", "累计死亡"],
                         left: "right"
                     },
 
@@ -257,7 +257,7 @@
                         smooth: true,
                         data: []//[260, 406, 529]
                     }, {
-                        name: "现有疑似",
+                        name: "累计疑似",
                         type: 'line',
                         smooth: true,
                         data: []//[54, 37, 3935]
@@ -293,7 +293,7 @@
                         },
                     },
                     legend: {
-                        data: ['新增确诊', '新增疑似'],
+                        data: ['新增确诊', '新增疑似','新增治愈','新增死亡'],
                         left: "right"
                     },
                     //标题样式
@@ -358,6 +358,16 @@
                         type: 'line',
                         smooth: true,
                         data: []
+                    },{
+                        name: "新增治愈",
+                        type: 'line',
+                        smooth: true,
+                        data: []
+                    },{
+                        name: "新增死亡",
+                        type: 'line',
+                        smooth: true,
+                        data: []
                     }]
                 };
                 ec_left2.setOption(ec_left2_Option)
@@ -369,59 +379,43 @@
                 var mydata = []
 
                 var ec_center_option = {
-                    title: {
-                        text: '全国',
-                        subtext: '',
-                        x: 'left'
-                    },
-                    tooltip: {
-                        trigger: 'item'
-                    },
-                    //左侧小导航图标
-                    visualMap: {
-                        show: true,
-                        x: 'left',
-                        y: 'bottom',
-                        textStyle: {
-                            fontSize: 8,
-                        },
-                        splitList: [{ start: 1,end: 9 },
-                            {start: 10, end: 99 },
-                            { start: 100, end: 999 },
-                            {  start: 1000, end: 9999 },
-                            { start: 10000 }],
-                        color: ['#8A3310', '#C64918', '#E55B25', '#F2AD92', '#F9DCD1']
-                    },
-                    //配置属性
-                    series: [{
-                        name: '累计确诊人数',
-                        type: 'map',
-                        mapType: 'china',
-                        roam: false, //拖动和缩放
-                        itemStyle: {
-                            normal: {
-                                borderWidth: .5, //区域边框宽度
-                                borderColor: '#009fe8', //区域边框颜色
-                                areaColor: "#ffefd5", //区域颜色
+                    baseOption: {
+                        timeline: {
+                            axisType: 'category',
+                            autoPlay: false,
+                            playInterval: 500,
+                            symbolSize: 0,
+                            left: '5%',
+                            right: '5%',
+                            bottom: '0%',
+                            width: '90%',
+                            data: [],
+                            tooltip: {
+                                formatter: []
                             },
-                            emphasis: { //鼠标滑过地图高亮的相关设置
-                                borderWidth: .5,
-                                borderColor: '#4b0082',
-                                areaColor: "#fff",
-                            }
                         },
-                        label: {
-                            normal: {
-                                show: true, //省份名称
+                        tooltip: {
+                            trigger: 'item'
+                        },
+                        //左侧小导航图标
+                        visualMap: {
+                            show: true,
+                            left: '5%',
+                            bottom: '10%',
+                            textStyle: {
                                 fontSize: 8,
                             },
-                            emphasis: {
-                                show: true,
-                                fontSize: 8,
-                            }
+                            splitList: [{ start: 1,end: 49 },
+                                {start: 50, end: 499 },
+                                { start: 500, end: 999 },
+                                {  start: 1000, end: 1999 },
+                                { start: 2000 }],
+                            color: ['#8A3310', '#C64918', '#E55B25', '#F2AD92', '#F9DCD1']
                         },
-                        data:[] //mydata //数据
-                    }]
+                    },
+                    animationDurationUpdate: 0,
+                    animationEasingUpdate: 'quinticInOut',
+                    options: [],
                 };
                 ec_center.setOption(ec_center_option)
             </script>
@@ -521,7 +515,262 @@
                 ec_right2.setOption(ec_right2_option)
             </script>
             <script src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
-            <script src="{% static 'js/controller.js' %}"></script>
+            <script type="text/javascript">
+                function gettime() {
+                    $.ajax({
+                        url: "/time",
+                        timeout: 10000, //超时时间设置为10秒；
+                        dataType:'json',
+                        success: function(data) {
+                            // console.log("gettime data",data)
+                            $("#tim").html(data)
+                        },
+                        error: function(xhr, type, errorThrown) {
+
+                        }
+                    });
+                }
+
+                function get_c1_data() {
+                    $.ajax({
+                        url: "/china/c1",
+                        dataType:'json',
+                        success: function(data) {
+                            {#data = JSON.stringify(data)#}
+                            {#console.log(data)#}
+                            {#console.log(typeof (data))#}
+                            data = data.data
+                            {#console.log(data)#}
+                            {#console.log(typeof (data))#}
+                            {#console.log(data[0])#}
+                            $(".num h1").eq(0).text(data[101].confirmedCount);
+                            $(".num h1").eq(1).text(data[101].suspectedCount);
+                            $(".num h1").eq(2).text(data[101].curedCount);
+                            $(".num h1").eq(3).text(data[101].deadCount);
+                        },
+                        error: function(xhr, type, errorThrown) {
+
+                        }
+                    })
+                }
+                function get_c2_data() {
+                    $.ajax({
+                        url:"/china/c2",
+                        success: function(data) {
+                            console.log(">>>data.data",data.data)
+                            console.log(">>>data.day",data.day)
+                            console.log(">>>data.data[0]",data.data[0]) // 这是第一天所有省份数据
+                            console.log(">>>data.res",data.res)
+                            ec_center_option.baseOption.timeline.data=data.day
+                            ec_center_option.baseOption.timeline.tooltip.formatter=data.day
+                            for (var n = 0; n < data.data.length; n++)
+                            {
+                                // 当日新增前十名
+                                data_sort = data.data[n]
+                                data_sort.sort(function(a, b) {
+                                    return b.value - a.value;
+                                }).slice(0, 6);
+                                data_sort.sort(function(a, b) {
+                                    return a.value - b.value;
+                                });
+                                var res1 = [];
+                                var res2 = [];
+                                for (t = 0; t < 10; t++) {
+                                    res1[t] = data_sort[data_sort.length - 1 - t].name;
+                                    res2[t] = data_sort[data_sort.length - 1 - t].value;
+                                }
+                                ec_center_option.options.push({
+                                    title: [{
+                                        text: data.day[n] + '全国疫情',
+                                        subtext: '累计确诊' + data.res[n]["confirmedCount"] + '\n'
+                                            + '累计疑似' + data.res[n]["suspectedCount"] + '\n'
+                                            + '累计治愈' + data.res[n]["curedCount"] + '\n'
+                                            + '累计死亡' + data.res[n]["deadCount"] + '\n',
+                                        left: '5%',
+                                        textStyle: {
+                                          fontSize: 30
+                                        },
+                                        subtextStyle: {
+                                          fontSize: 15
+                                        }
+                                    },
+                                    /* {
+                                        show: true,
+                                        text: '感染人数前十的省份',
+                                        textStyle: {
+                                            color: '#2D3E53',
+                                            fontSize: 24
+                                        },
+                                        right: '5%',
+                                        top: '15%'
+                                    }*/
+                                    ],
+                                    /*
+                                    yAxis: {
+                                        data: res1,
+                                    },
+                                    tooltip: {
+                                        show: true,
+                                        formatter:(params)=>{
+                                            let data = params.name + "\n" +"确诊人数:"+ params.value[2];
+                                            //+"<br/>"+"地理坐标:[" + params.value[0]+","+params.value[1] +"]";
+                                            return data;
+                                        },
+                                    },*/
+                                    //配置属性
+                                    series: [{
+                                        name: '累计确诊人数',
+                                        type: 'map',
+                                        mapType: 'china',
+                                        coordinateSystem: 'geo3D',
+                                        roam: false, //拖动和缩放
+                                        itemStyle: {
+                                            normal: {
+                                                borderWidth: .5, //区域边框宽度
+                                                borderColor: '#009fe8', //区域边框颜色
+                                                areaColor: "#ffefd5", //区域颜色
+                                            },
+                                            emphasis: { //鼠标滑过地图高亮的相关设置
+                                                borderWidth: .5,
+                                                borderColor: '#4b0082',
+                                                areaColor: "#fff",
+                                            }
+                                        },
+                                        label: {
+                                            normal: {
+                                                show: true, //省份名称
+                                                fontSize: 8,
+                                            },
+                                            emphasis: {
+                                                show: true,
+                                                fontSize: 8,
+                                            }
+                                        },
+                                        data:data.data[n] //mydata //数据
+                                    },
+                                    /* {
+                                        type: 'bar',
+                                        data: res2,
+                                        itemStyle: {
+                                            normal: {
+                                                color: function(params) {
+                                                    // build a color map as your need.
+                                                    var colorList = [{
+                                                        colorStops: [{
+                                                            offset: 0,
+                                                            color: '#FF0000' // 0% 处的颜色
+                                                        },
+                                                        {
+                                                            offset: 1,
+                                                            color: '#990000' // 100% 处的颜色
+                                                        }]
+                                                        },
+                                                        {
+                                                        colorStops: [{
+                                                            offset: 0,
+                                                            color: '#00C0FA' // 0% 处的颜色
+                                                        },
+                                                        {
+                                                            offset: 1,
+                                                            color: '#2F95FA' // 100% 处的颜色
+                                                        }]
+                                                        }
+                                                ];
+                                                if (params.dataIndex < 3) {
+                                                    return colorList[0]
+                                                } else {
+                                                    return colorList[1]
+                                                }
+                                                },
+                                            }
+                                        },
+                                    }*/
+                                    ]
+                                })
+                            }
+                            // ec_center_option.series[0].data=data.data[0]["confirmedCount"]
+                            ec_center.setOption(ec_center_option)
+                        },
+                        error: function(xhr, type, errorThrown) {
+
+                        }
+                    })
+                }
+
+                function get_l1_data() {
+                    $.ajax({
+                        url:"china/l1",
+                        success: function(data) {
+                            ec_left1_Option.xAxis[0].data=data.day
+                            ec_left1_Option.series[0].data=data.confirm
+                            ec_left1_Option.series[1].data=data.suspect
+                            ec_left1_Option.series[2].data=data.heal
+                            ec_left1_Option.series[3].data=data.dead
+                            ec_left1.setOption(ec_left1_Option)
+                        },
+                        error: function(xhr, type, errorThrown) {
+
+                        }
+                    })
+                }
+
+                function get_l2_data() {
+                    $.ajax({
+                        url:"/china/l2",
+                        success: function(data) {
+                            ec_left2_Option.xAxis[0].data=data.day
+                            ec_left2_Option.series[0].data=data.confirm_add
+                            ec_left2_Option.series[1].data=data.suspect_add
+                            ec_left2_Option.series[2].data=data.heal_add
+                            ec_left2_Option.series[3].data=data.dead_add
+                            ec_left2.setOption(ec_left2_Option)
+                        },
+                        error: function(xhr, type, errorThrown) {
+
+                        }
+                    })
+                }
+
+                function get_r1_data() {
+                    $.ajax({
+                        url: "/r1",
+                        success: function (data) {
+                            ec_right1_option.xAxis.data=data.city;
+                            ec_right1_option.series[0].data=data.confirm;
+                            ec_right1.setOption(ec_right1_option);
+                        }
+                    })
+                }
+                function get_r2_data() {
+                    $.ajax({
+                        url:"/r2",
+                        success:function (data) {
+                            ec_right2_option.series[0].data=data.data
+                            ec_right2.setOption(ec_right2_option)
+
+                        },
+                        error:function (xhr,type,errorThrown) {
+
+                        }
+                    })
+                }
+                gettime()
+                get_c1_data()
+                get_c2_data()
+                get_l1_data()
+                get_l2_data()
+                get_r1_data()
+                get_r2_data()
+
+                // setInterval(gettime,1000) // 1秒刷一次
+                // setInterval(get_c1_data,1000*10) // 10秒刷一次
+                // setInterval(get_c2_data,10000*10) // 100秒刷一次
+                // setInterval(get_l1_data,10000*10) // 100秒刷一次
+                // setInterval(get_l2_data,10000*10) // 100秒刷一次
+                // setInterval(get_r1_data,10000*10) // 100秒刷一次
+                // setInterval(get_r2_data,10000*10) // 100秒刷一次
+
+            </script>
 		</div>
 	</body>
 </html>

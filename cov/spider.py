@@ -176,12 +176,12 @@ def get_ncov_data():
     # res_global_his = json.loads(r.text)  # json字符串转字典
     # print("loads完毕")
     # 历史中国疫情
-    r = requests.get(url_china_his, headers)
+    r = requests.get(url_china_prov_his, headers)
     print("request完毕")
-    res_china_his = json.loads(r.text)  # json字符串转字典
+    res_china_prov_his = json.loads(r.text)  # json字符串转字典
     print("loads完毕")
-    a = json.dumps(res_china_his)
-    f = open('history_china.json', 'w', encoding='utf-8')
+    a = json.dumps(res_china_prov_his)
+    f = open('res_china_prov.json', 'w', encoding='utf-8')
     f.write(a)
     f.close()
 
@@ -202,6 +202,7 @@ def process_json(fname):
         for i in lst:
             dateId = i["dateId"]  # 日期
             provinceName = i["provinceName"]  # 省份
+            provinceCode = i["provinceCode"] # 省份代码
             confirmedCount = i["confirmedCount"]  # 累计确诊
             confirmedIncr = i["confirmedIncr"]  # 新增确诊
             curedCount = i["curedCount"]  # 累计治愈
@@ -213,7 +214,7 @@ def process_json(fname):
             suspectedCount = i["suspectedCount"]  # 累计疑似
             suspectedCountIncr = i["suspectedCountIncr"]  # 新增疑似
             details.append(
-                [dateId, provinceName, confirmedCount, confirmedIncr, curedCount, curedIncr, currentConfirmedCount,
+                [dateId, provinceName, provinceCode, confirmedCount, confirmedIncr, curedCount, curedIncr, currentConfirmedCount,
                  currentConfirmedIncr, deadCount, deadIncr, suspectedCount, suspectedCountIncr])
     elif fname=='history_china.json':
         f = open(fname, 'r', encoding='utf-8')
@@ -267,8 +268,8 @@ def update_china_history_prov():
     try:
         li = process_json('history_china_prov.json')  # 返回列表
         conn, cursor = get_conn()
-        sql = "insert into history_china_prov(dateId, provinceName, confirmedCount, confirmedIncr, curedCount, curedIncr, currentConfirmedCount," \
-              "currentConfirmedIncr, deadCount, deadIncr, suspectedCount, suspectedCountIncr) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+        sql = "insert into history_china_prov(dateId, provinceName,provinceCode, confirmedCount, confirmedIncr, curedCount, curedIncr, currentConfirmedCount," \
+              "currentConfirmedIncr, deadCount, deadIncr, suspectedCount, suspectedCountIncr) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
         print(f"{time.asctime()}开始更新最新数据")
         for item in li:
             cursor.execute(sql, item)
@@ -281,8 +282,8 @@ def update_china_history_prov():
 
 if __name__ == "__main__":
     #  insert_history()
-    update_history()
-    update_details()
+    # update_history()
+    # update_details()
     # get_ncov_data()
-    # update_china_history()
+    update_china_history()
     # update_china_history_prov()

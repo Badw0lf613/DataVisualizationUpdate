@@ -51,6 +51,7 @@ class History_China(models.Model):
 class History_China_Prov(models.Model):
     dateId = models.DateTimeField(blank=True, null=True)                    # 日期
     provinceName = models.CharField(max_length=50, blank=True, null=True)   # 省
+    provinceCode = models.CharField(max_length=50, blank=True, null=True)   # 省代码
     confirmedCount = models.IntegerField(blank=True, null=True)             # 累计确诊
     confirmedIncr = models.IntegerField(blank=True, null=True)              # 新增确诊
     curedCount = models.IntegerField(blank=True, null=True)                 # 累计治愈

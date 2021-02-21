@@ -53,7 +53,7 @@ def get_c1_data():
           "from details " \
           "where update_time=(select update_time from details order by update_time desc limit 1) "
     res = query(sql)
-
+    # print(res)
     res_list = [str(i) for i in res[0]]
     res_tuple=tuple(res_list)
     return res_tuple
@@ -110,13 +110,35 @@ def get_r2_data():
     res = query(sql)
     return res
 
-def get_c1_data_china():
-    sql = "select province,sum(confirm) from details " \
-          "where update_time=(select update_time from details " \
-          "order by update_time desc limit 1) " \
-          "group by province"
+def get_l1_data_china():
+    sql = "select dateId,confirmedCount,suspectedCount,curedCount,deadCount from history_china"
     res = query(sql)
     return res
 
+def get_l2_data_china():
+    sql = "select dateId,confirmedIncr,suspectedCountIncr,curedIncr,deadIncr from history_china"
+    res = query(sql)
+    return res
+
+def get_c1_data_china():
+    sql = "select dateId,confirmedCount, confirmedIncr, curedCount,curedIncr," \
+          " currentConfirmedCount, currentConfirmedIncr, deadCount, deadIncr," \
+          " suspectedCount, suspectedCountIncr from history_china "\
+          "group by id"
+    res = query(sql)
+    return res
+
+def get_c2_data_china():
+    # sql = "select dateId, provinceName,provinceCode, confirmedCount, confirmedIncr, curedCount,curedIncr," \
+    #       " currentConfirmedCount, currentConfirmedIncr, deadCount, deadIncr," \
+    #       " suspectedCount, suspectedCountIncr from history_china_prov "\
+    #       "group by id"
+    sql = "select dateId, provinceName,provinceCode, confirmedCount from history_china_prov " \
+          "group by id"
+    res = query(sql)
+    # print("res",res)
+    return res
+
 if __name__ == "__main__":
-    print(get_c1_data())
+    # print(get_c1_data())
+    print(get_c1_data_china())
