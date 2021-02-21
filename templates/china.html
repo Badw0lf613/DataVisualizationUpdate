@@ -63,9 +63,9 @@
             }
             #c2 {
                 position: absolute;
-                width: 40%;
-                height: 65%;
-                top: 35%;
+                width: 70%;
+                height: 90%;
+                top: 10%;
                 left: 30%;
                 /*background: red;*/
             }
@@ -164,20 +164,7 @@
 			<div id="tim"></div>
 			<div id="l1" >l1</div>
 			<div id="l2">l2</div>
-            {#c1数据总览#}
-			<div id="c1">
-				<div class="num"><h1></h1></div>
-				<div class="num"><h1></h1></div>
-				<div class="num"><h1></h1></div>
-				<div class="num"><h1></h1></div>
-				<div class="txt"><h2>累计确诊</h2></div>
-				<div class="txt"><h2>累计疑似</h2></div>
-				<div class="txt"><h2>累计治愈</h2></div>
-				<div class="txt"><h2>累计死亡</h2></div>
-			</div>
 			<div id="c2">c2</div>
-			<div id="r1">r1</div>
-			<div id="r2">r2</div>
             <script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
             <script src="{% static 'js/echarts.min.js' %}"></script>
             <script src="{% static 'js/china.js' %}"></script>
@@ -211,9 +198,9 @@
 
                     //图形位置
                     grid: {
-                        left: '4%',
-                        right: '6%',
-                        bottom: '4%',
+                        left: '0%',
+                        right: '0%',
+                        bottom: '0%',
                         top: 50,
                         containLabel: true
                     },
@@ -385,10 +372,10 @@
                             autoPlay: false,
                             playInterval: 500,
                             symbolSize: 0,
-                            left: '5%',
+                            left: '0%',
                             right: '5%',
                             bottom: '0%',
-                            width: '90%',
+                            width: '100%',
                             data: [],
                             tooltip: {
                                 formatter: []
@@ -400,17 +387,53 @@
                         //左侧小导航图标
                         visualMap: {
                             show: true,
-                            left: '5%',
+                            left: '0%',
                             bottom: '10%',
                             textStyle: {
-                                fontSize: 8,
+                                fontSize: 12,
                             },
-                            splitList: [{ start: 1,end: 49 },
-                                {start: 50, end: 499 },
-                                { start: 500, end: 999 },
-                                {  start: 1000, end: 1999 },
-                                { start: 2000 }],
-                            color: ['#8A3310', '#C64918', '#E55B25', '#F2AD92', '#F9DCD1']
+                            {#splitList: [{ start: 1,end: 49 },#}
+                            {#    {start: 50, end: 499 },#}
+                            {#    { start: 500, end: 999 },#}
+                            {#    {  start: 1000, end: 1999 },#}
+                            {#    { start: 2000 }],#}
+                            {#color: ['#8A3310', '#C64918', '#E55B25', '#F2AD92', '#F9DCD1']#}
+                            max: 2000,
+                            inRange: {
+                                color: ['#F9DCD1', '#F2AD92', '#E55B25', '#C64918', '#8A3310']
+                            }
+                        },
+                        grid: {
+                            right: '5%',
+                            top: '20%',
+                            bottom: '10%',
+                            width: '30%'
+                        },
+                        xAxis: {
+                            type: 'value',
+                            scale: true,
+                            position: 'left',
+                            max: 'dataMax',
+                            min: 0,
+                            boundaryGap: true,
+                            splitLine: {
+                                show: true
+                            },
+                            axisLine: {
+                                show: true
+                            },
+                            axisTick: {
+                                show: true
+                            },
+                            axisLabel: {
+                                margin: 0,
+                                textStyle: {
+                                    color: '#000000'
+                                }
+                            },
+                        },
+                        yAxis: {
+                            data: [],
                         },
                     },
                     animationDurationUpdate: 0,
@@ -418,101 +441,6 @@
                     options: [],
                 };
                 ec_center.setOption(ec_center_option)
-            </script>
-            {#r1全国新增确诊病例数量TOP5#}
-            <script type="text/javascript">
-                var ec_right1 = echarts.init(document.getElementById('r1'), "vintage");
-                var ec_right1_option = {
-                    //标题样式
-                    title : {
-                        text : "全国新增确诊病例数量TOP5",
-                        textStyle : {
-                            color : '#000000',
-                        },
-                        left : 'left'
-                    },
-                      color: ['#3398DB'],
-                        tooltip: {
-                            trigger: 'axis',
-                            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                            }
-                        },
-                    xAxis: {
-                        type: 'category',
-                        data: []
-                    },
-                    yAxis: {
-                        type: 'value'
-                    },
-                    series: [{
-                        data: [],
-                        type: 'bar',
-                        barMaxWidth:"50%"
-                    }]
-                };
-                ec_right1.setOption(ec_right1_option)
-            </script>
-            {#r2全国新增病例地图#}
-            <script type="text/javascript">
-                var ec_right2 = echarts.init(document.getElementById('r2'), "vintage");
-                var mydata = [{'name': '上海', 'value': 318}, {'name': '云南', 'value': 162}]
-                var ec_right2_option = {
-                    title: {
-                        text: '今日新增病例地图',
-                        subtext: '',
-                        x: 'left'
-                    },
-                    tooltip: {
-                        trigger: 'item'
-                    },
-                    //左侧小导航图标
-                    visualMap: {
-                        show: true,
-                        x: 'left',
-                        y: 'bottom',
-                        textStyle: {
-                            fontSize: 8,
-                        },
-                        splitList: [{ start: 0,end: 0 },
-                            {start: 1, end: 5 },
-                            { start: 5, end: 9 },
-                            {  start: 10, end: 50 },
-                            { start: 50 }],
-                        color: ['#8A3310', '#C64918', '#E55B25', '#F2AD92', '#FFFFFF']
-                    },
-                    //配置属性
-                    series: [{
-                        name: '新增确诊人数',
-                        type: 'map',
-                        mapType: 'china',
-                        roam: false, //拖动和缩放
-                        itemStyle: {
-                            normal: {
-                                borderWidth: .5, //区域边框宽度
-                                borderColor: '#009fe8', //区域边框颜色
-                                areaColor: "#ffefd5", //区域颜色
-                            },
-                            emphasis: { //鼠标滑过地图高亮的相关设置
-                                borderWidth: .5,
-                                borderColor: '#4b0082',
-                                areaColor: "#fff",
-                            }
-                        },
-                        label: {
-                            normal: {
-                                show: true, //省份名称
-                                fontSize: 8,
-                            },
-                            emphasis: {
-                                show: true,
-                                fontSize: 8,
-                            }
-                        },
-                        data:[] //mydata //数据
-                    }]
-                };
-                ec_right2.setOption(ec_right2_option)
             </script>
             <script src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
             <script type="text/javascript">
@@ -529,29 +457,6 @@
 
                         }
                     });
-                }
-
-                function get_c1_data() {
-                    $.ajax({
-                        url: "/china/c1",
-                        dataType:'json',
-                        success: function(data) {
-                            {#data = JSON.stringify(data)#}
-                            {#console.log(data)#}
-                            {#console.log(typeof (data))#}
-                            data = data.data
-                            {#console.log(data)#}
-                            {#console.log(typeof (data))#}
-                            {#console.log(data[0])#}
-                            $(".num h1").eq(0).text(data[101].confirmedCount);
-                            $(".num h1").eq(1).text(data[101].suspectedCount);
-                            $(".num h1").eq(2).text(data[101].curedCount);
-                            $(".num h1").eq(3).text(data[101].deadCount);
-                        },
-                        error: function(xhr, type, errorThrown) {
-
-                        }
-                    })
                 }
                 function get_c2_data() {
                     $.ajax({
@@ -579,6 +484,8 @@
                                     res1[t] = data_sort[data_sort.length - 1 - t].name;
                                     res2[t] = data_sort[data_sort.length - 1 - t].value;
                                 }
+                                console.log("res1",res1)
+                                console.log("res2",res2)
                                 ec_center_option.options.push({
                                     title: [{
                                         text: data.day[n] + '全国疫情',
@@ -586,7 +493,7 @@
                                             + '累计疑似' + data.res[n]["suspectedCount"] + '\n'
                                             + '累计治愈' + data.res[n]["curedCount"] + '\n'
                                             + '累计死亡' + data.res[n]["deadCount"] + '\n',
-                                        left: '5%',
+                                        left: '0%',
                                         textStyle: {
                                           fontSize: 30
                                         },
@@ -594,36 +501,37 @@
                                           fontSize: 15
                                         }
                                     },
-                                    /* {
+                                    {
                                         show: true,
                                         text: '感染人数前十的省份',
                                         textStyle: {
                                             color: '#2D3E53',
                                             fontSize: 24
                                         },
-                                        right: '5%',
+                                        right: '10%',
                                         top: '15%'
-                                    }*/
+                                    }
                                     ],
-                                    /*
                                     yAxis: {
                                         data: res1,
                                     },
                                     tooltip: {
                                         show: true,
                                         formatter:(params)=>{
-                                            let data = params.name + "\n" +"确诊人数:"+ params.value[2];
+                                            let data = params.name + "<br>" +"确诊人数:"+ params.value;
                                             //+"<br/>"+"地理坐标:[" + params.value[0]+","+params.value[1] +"]";
                                             return data;
                                         },
-                                    },*/
+                                    },
                                     //配置属性
                                     series: [{
                                         name: '累计确诊人数',
                                         type: 'map',
                                         mapType: 'china',
-                                        coordinateSystem: 'geo3D',
-                                        roam: false, //拖动和缩放
+                                        {#coordinateSystem: 'geo3D',#}
+                                        roam: true, //拖动和缩放
+                                        zoom: 0.8,
+                                        left: -5,
                                         itemStyle: {
                                             normal: {
                                                 borderWidth: .5, //区域边框宽度
@@ -639,56 +547,58 @@
                                         label: {
                                             normal: {
                                                 show: true, //省份名称
-                                                fontSize: 8,
+                                                fontSize: 16,
                                             },
                                             emphasis: {
                                                 show: true,
-                                                fontSize: 8,
+                                                fontSize: 16,
                                             }
                                         },
                                         data:data.data[n] //mydata //数据
                                     },
-                                    /* {
+                                    //柱状图
+                                    {
                                         type: 'bar',
                                         data: res2,
+                                        position: [100, 100],
                                         itemStyle: {
-                                            normal: {
-                                                color: function(params) {
-                                                    // build a color map as your need.
-                                                    var colorList = [{
-                                                        colorStops: [{
-                                                            offset: 0,
-                                                            color: '#FF0000' // 0% 处的颜色
-                                                        },
-                                                        {
-                                                            offset: 1,
-                                                            color: '#990000' // 100% 处的颜色
-                                                        }]
-                                                        },
-                                                        {
-                                                        colorStops: [{
-                                                            offset: 0,
-                                                            color: '#00C0FA' // 0% 处的颜色
-                                                        },
-                                                        {
-                                                            offset: 1,
-                                                            color: '#2F95FA' // 100% 处的颜色
-                                                        }]
-                                                        }
-                                                ];
-                                                if (params.dataIndex < 3) {
-                                                    return colorList[0]
-                                                } else {
-                                                    return colorList[1]
-                                                }
-                                                },
+                                            // color: '#000000',
+                                            color: function(params) {
+                                                console.log("params",params)
+                                                // build a color map as your need.
+                                                var colorList = [{
+                                                    colorStops: [{
+                                                        offset: 0,
+                                                        color: 'yellow' // 0% 处的颜色
+                                                    },
+                                                    {
+                                                        offset: 1,
+                                                        color: '#000000' // 100% 处的颜色
+                                                    }]
+                                                    },
+                                                    {
+                                                    colorStops: [{
+                                                        offset: 0,
+                                                        color: '#00C0FA' // 0% 处的颜色
+                                                    },
+                                                    {
+                                                        offset: 1,
+                                                        color: '#2F95FA' // 100% 处的颜色
+                                                    }]
+                                                    }];
+                                            if (params.dataIndex < 3) {
+                                                return colorList[0]
                                             }
+                                            else {
+                                                return colorList[1]
+                                            }
+                                            },
                                         },
-                                    }*/
+                                    }
                                     ]
                                 })
+                                // ec_center_option.options[n].series[1].itemStyle.color='#000000'
                             }
-                            // ec_center_option.series[0].data=data.data[0]["confirmedCount"]
                             ec_center.setOption(ec_center_option)
                         },
                         error: function(xhr, type, errorThrown) {
@@ -730,39 +640,12 @@
                         }
                     })
                 }
-
-                function get_r1_data() {
-                    $.ajax({
-                        url: "/r1",
-                        success: function (data) {
-                            ec_right1_option.xAxis.data=data.city;
-                            ec_right1_option.series[0].data=data.confirm;
-                            ec_right1.setOption(ec_right1_option);
-                        }
-                    })
-                }
-                function get_r2_data() {
-                    $.ajax({
-                        url:"/r2",
-                        success:function (data) {
-                            ec_right2_option.series[0].data=data.data
-                            ec_right2.setOption(ec_right2_option)
-
-                        },
-                        error:function (xhr,type,errorThrown) {
-
-                        }
-                    })
-                }
                 gettime()
-                get_c1_data()
                 get_c2_data()
                 get_l1_data()
                 get_l2_data()
-                get_r1_data()
-                get_r2_data()
 
-                // setInterval(gettime,1000) // 1秒刷一次
+                setInterval(gettime,1000) // 1秒刷一次
                 // setInterval(get_c1_data,1000*10) // 10秒刷一次
                 // setInterval(get_c2_data,10000*10) // 100秒刷一次
                 // setInterval(get_l1_data,10000*10) // 100秒刷一次
