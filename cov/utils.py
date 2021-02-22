@@ -139,6 +139,26 @@ def get_c2_data_china():
     # print("res",res)
     return res
 
+def get_l1_data_shanghai():
+    sql = "select dateId,confirmedCount,suspectedCount,curedCount,deadCount from history_shanghai"
+    res = query(sql)
+    return res
+
+def get_l2_data_shanghai():
+    sql = "select dateId,confirmedIncr,suspectedCountIncr,curedIncr,deadIncr from history_shanghai"
+    res = query(sql)
+    return res
+
+def get_c2_data_shanghai():
+    # sql = "select dateId, provinceName,provinceCode, confirmedCount, confirmedIncr, curedCount,curedIncr," \
+    #       " currentConfirmedCount, currentConfirmedIncr, deadCount, deadIncr," \
+    #       " suspectedCount, suspectedCountIncr from history_china_prov "\
+    #       "group by id"
+    sql = "select cityName, currentConfirmedCount,confirmedCount, suspectedCount, curedCount, deadCount from history_shanghai_prov " \
+          "group by id"
+    res = query(sql)
+    return res
+
 if __name__ == "__main__":
     # print(get_c1_data())
     print(get_c1_data_china())

@@ -63,15 +63,15 @@
             }
             #c2 {
                 position: absolute;
-                width: 68%;
+                width: 70%;
                 height: 90%;
                 top: 10%;
-                left: 32%;
+                left: 30%;
                 /*background: red;*/
             }
             #l1 {
                 position: absolute;
-                width: 32%;
+                width: 30%;
                 height: 45%;
                 top: 10%;
                 left: 0;
@@ -79,7 +79,7 @@
             }
             #l2 {
                 position: absolute;
-                width: 32%;
+                width: 30%;
                 height: 45%;
                 top: 55%;
                 left: 0;
@@ -140,7 +140,7 @@
             <li class="dropdown" style="width: 40%;height: 0;top: 0;left: 30%;display: inline-block;">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <span style="color: #000000;text-align: center;font-size: 40px;display: flex;align-items: center;justify-content: center;">
-                        全国疫情完整过程
+                        上海疫情实时追踪
                     </span>
                 </a>
                 <ul class="dropdown-menu" style="background: #cccccc;width: 40%;top: 50px;left: 30%;">
@@ -168,20 +168,22 @@
                 </ul>
             </li>
 			<div id="tim"></div>
-			<div id="l1" >l1</div>
+			<div id="l1">l1</div>
 			<div id="l2">l2</div>
 			<div id="c2">c2</div>
             <script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
             <script src="{% static 'js/echarts.min.js' %}"></script>
+            <script src="{% static 'js/echarts-gl.js' %}"></script>
+            <script src="{% static 'js/bmap.min.js' %}"></script>
             <script src="{% static 'js/china.js' %}"></script>
-            {#l1全国累计趋势#}
+            {#l1上海累计趋势#}
             <script type="text/javascript">
                 var ec_left1 = echarts.init(document.getElementById('l1'), "vintage");
 
                 var ec_left1_Option = {
                     //标题样式
                     title: {
-                        text: "全国累计趋势",
+                        text: "上海累计趋势",
                         textStyle: {
                             color: '#000000',
                         },
@@ -271,7 +273,7 @@
                 ec_left1.setOption(ec_left1_Option)
 
             </script>
-            {#l2全国新增趋势#}
+            {#l2上海新增趋势#}
             <script type="text/javascript">
                 var ec_left2 = echarts.init(document.getElementById('l2'), "vintage");
                 var ec_left2_Option = {
@@ -291,7 +293,7 @@
                     },
                     //标题样式
                     title: {
-                        text: "全国新增趋势",
+                        text: "上海新增趋势",
                         textStyle: {
                             color: '#000000',
                         },
@@ -369,84 +371,10 @@
             <script type="text/javascript">
                 var ec_center = echarts.init(document.getElementById('c2'), "vintage");
 
+                // JSON文件(地图数据)路径
+                var uploadedDataURL = "static/json/shanghai.json";// shanghai.json
                 var mydata = []
-
-                var ec_center_option = {
-                    baseOption: {
-                        timeline: {
-                            axisType: 'category',
-                            autoPlay: false,
-                            playInterval: 500,
-                            symbolSize: 0,
-                            left: '0%',
-                            right: '5%',
-                            bottom: '0%',
-                            width: '100%',
-                            data: [],
-                            tooltip: {
-                                formatter: []
-                            },
-                        },
-                        tooltip: {
-                            trigger: 'item'
-                        },
-                        //左侧小导航图标
-                        visualMap: {
-                            show: true,
-                            left: '5%',
-                            bottom: '10%',
-                            textStyle: {
-                                fontSize: 12,
-                            },
-                            {#splitList: [{ start: 1,end: 49 },#}
-                            {#    {start: 50, end: 499 },#}
-                            {#    { start: 500, end: 999 },#}
-                            {#    {  start: 1000, end: 1999 },#}
-                            {#    { start: 2000 }],#}
-                            {#color: ['#8A3310', '#C64918', '#E55B25', '#F2AD92', '#F9DCD1']#}
-                            max: 2000,
-                            inRange: {
-                                color: ['#F9DCD1', '#F2AD92', '#E55B25', '#C64918', '#8A3310']
-                            }
-                        },
-                        grid: {
-                            right: '5%',
-                            top: '20%',
-                            bottom: '10%',
-                            width: '30%'
-                        },
-                        xAxis: {
-                            type: 'value',
-                            scale: true,
-                            position: 'left',
-                            max: 'dataMax',
-                            min: 0,
-                            boundaryGap: true,
-                            splitLine: {
-                                show: true
-                            },
-                            axisLine: {
-                                show: true
-                            },
-                            axisTick: {
-                                show: true
-                            },
-                            axisLabel: {
-                                margin: 0,
-                                textStyle: {
-                                    color: '#000000'
-                                }
-                            },
-                        },
-                        yAxis: {
-                            data: [],
-                        },
-                    },
-                    animationDurationUpdate: 0,
-                    animationEasingUpdate: 'quinticInOut',
-                    options: [],
-                };
-                ec_center.setOption(ec_center_option)
+                // 引入JSON文件
             </script>
             <script src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
             <script type="text/javascript">
@@ -466,7 +394,7 @@
                 }
                 function get_c2_data() {
                     $.ajax({
-                        url:"/china/c2",
+                        url:"/shanghai/c2",
                         success: function(data) {
                             // console.log(">>>data.data",data.data)
                             // console.log(">>>data.day",data.day)
@@ -475,33 +403,14 @@
                             // console.log(">>>data.data[2]",data.data[2]) // 这是第一天所有省份数据
                             // console.log(">>>data.data[3]",data.data[3]) // 这是第一天所有省份数据
                             // console.log(">>>data.res",data.res)
-                            ec_center_option.baseOption.timeline.data=data.day
-                            ec_center_option.baseOption.timeline.tooltip.formatter=data.day
-                            for (var n = 0; n < data.data.length; n++)
-                            {
-                                // 当日新增前十名
-                                data_sort = data.data[n]
-                                data_sort.sort(function(a, b) {
-                                    return b.value - a.value;
-                                }).slice(0, 6);
-                                data_sort.sort(function(a, b) {
-                                    return a.value - b.value;
-                                });
-                                var res1 = [];
-                                var res2 = [];
-                                for (t = 0; t < 10; t++) {
-                                    res1[t] = data_sort[data_sort.length - 1 - t].name;
-                                    res2[t] = data_sort[data_sort.length - 1 - t].value;
-                                }
-                                // console.log("res1",res1)
-                                // console.log("res2",res2)
-                                ec_center_option.options.push({
+                            $.getJSON(uploadedDataURL, function(geoJson) {
+
+                                // 注册地图名字（shanghai）和数据(geoJson)
+                                echarts.registerMap('shanghai', geoJson);
+                                var ec_center_option = {
                                     title: [{
-                                        text: data.day[n] + '全国疫情',
-                                        subtext: '累计确诊' + data.res[n]["confirmedCount"] + '\n'
-                                            + '累计疑似' + data.res[n]["suspectedCount"] + '\n'
-                                            + '累计治愈' + data.res[n]["curedCount"] + '\n'
-                                            + '累计死亡' + data.res[n]["deadCount"] + '\n',
+                                        text: '上海累计确诊地图',
+                                        subtext: '',
                                         left: '5%',
                                         textStyle: {
                                           fontSize: 30
@@ -512,7 +421,7 @@
                                     },
                                     {
                                         show: true,
-                                        text: '感染人数前十的省份',
+                                        text: '各区确诊人数占比',
                                         textStyle: {
                                             color: '#2D3E53',
                                             fontSize: 24
@@ -521,94 +430,79 @@
                                         top: '15%'
                                     }
                                     ],
-                                    yAxis: {
-                                        data: res1,
-                                    },
                                     tooltip: {
+                                        trigger: 'item'
+                                    },
+                                    //左侧小导航图标
+                                    visualMap: {
                                         show: true,
-                                        formatter:(params)=>{
-                                            let data = params.name + "<br>" +"确诊人数:"+ params.value;
-                                            //+"<br/>"+"地理坐标:[" + params.value[0]+","+params.value[1] +"]";
-                                            return data;
+                                        left: '5%',
+                                        bottom: '10%',
+                                        textStyle: {
+                                            fontSize: 12,
+                                        },
+                                        {#splitList: [{ start: 1,end: 49 },#}
+                                        {#    {start: 50, end: 499 },#}
+                                        {#    { start: 500, end: 999 },#}
+                                        {#    {  start: 1000, end: 1999 },#}
+                                        {#    { start: 2000 }],#}
+                                        {#color: ['#8A3310', '#C64918', '#E55B25', '#F2AD92', '#F9DCD1']#}
+                                        max: 50,
+                                        inRange: {
+                                            color: ['#F9DCD1', '#F2AD92', '#E55B25', '#C64918', '#8A3310']
+                                        }
+                                    },
+                                    grid: {
+                                        right: '5%',
+                                        top: '20%',
+                                        bottom: '10%',
+                                        width: '30%'
+                                    },
+                                    series: [{
+                                        name: '确诊人数',
+                                        type: 'map3D',// 改3d
+                                        map: 'shanghai',
+                                        right: '5%',
+                                        left: '-30%',
+                                        roam: true,
+                                        geoIndex: 0,
+                                        label: {
+                                            show: false,
+                                        },
+                                        data: data.data,
+                                        viewControl: {			// 用于鼠标的旋转，缩放等视角控制。
+                                            projection: 'perspective',		// 投影方式，默认为透视投影'perspective'，也支持设置为正交投影'orthographic'。
+                                            distance: 180,					// [ default: 100 ] 默认视角距离主体的距离，对于 grid3D 和 geo3D 等其它组件来说是距离中心原点的距离,对于 globe 来说是距离地球表面的距离。在 projection 为'perspective'的时候有效。
+                                            center: [0,0,0],				// 视角中心点，旋转也会围绕这个中心点旋转，默认为[0,0,0]。
                                         },
                                     },
-                                    //配置属性
-                                    series: [{
-                                        name: '累计确诊人数',
-                                        type: 'map',
-                                        mapType: 'china',
-                                        {#coordinateSystem: 'geo3D',#}
-                                        roam: true, //拖动和缩放
-                                        zoom: 0.8,
-                                        left: '0%',
+                                    {
+                                        name: '确诊人数',
+                                        type: 'pie',
+                                        radius: [50, 200],
+                                        center: ['80%', '55%'],
+                                        roseType: 'radius',
                                         itemStyle: {
-                                            normal: {
-                                                borderWidth: .5, //区域边框宽度
-                                                borderColor: '#009fe8', //区域边框颜色
-                                                areaColor: "#ffefd5", //区域颜色
-                                            },
-                                            emphasis: { //鼠标滑过地图高亮的相关设置
-                                                borderWidth: .5,
-                                                borderColor: '#4b0082',
-                                                areaColor: "#fff",
-                                            }
+                                            borderRadius: 5
                                         },
                                         label: {
-                                            normal: {
-                                                show: true, //省份名称
-                                                fontSize: 16,
+                                            show: true,
+                                            textStyle: {
+                                                fontSize: 20,
                                             },
-                                            emphasis: {
-                                                show: true,
-                                                fontSize: 16,
+                                        },
+                                        emphasis: {
+                                            label: {
+                                                show: true
                                             }
                                         },
-                                        data:data.data[n] //mydata //数据
+                                        data: data.data
                                     },
-                                    //柱状图
-                                    {
-                                        type: 'bar',
-                                        data: res2,
-                                        position: [100, 100],
-                                        itemStyle: {
-                                            // color: '#000000',
-                                            color: function(params) {
-                                                // console.log("params",params)
-                                                // build a color map as your need.
-                                                var colorList = [{
-                                                    colorStops: [{
-                                                        offset: 0,
-                                                        color: 'yellow' // 0% 处的颜色
-                                                    },
-                                                    {
-                                                        offset: 1,
-                                                        color: '#000000' // 100% 处的颜色
-                                                    }]
-                                                    },
-                                                    {
-                                                    colorStops: [{
-                                                        offset: 0,
-                                                        color: '#00C0FA' // 0% 处的颜色
-                                                    },
-                                                    {
-                                                        offset: 1,
-                                                        color: '#2F95FA' // 100% 处的颜色
-                                                    }]
-                                                    }];
-                                            if (params.dataIndex < 3) {
-                                                return colorList[0]
-                                            }
-                                            else {
-                                                return colorList[1]
-                                            }
-                                            },
-                                        },
-                                    }
-                                    ]
-                                })
-                                // ec_center_option.options[n].series[1].itemStyle.color='#000000'
-                            }
-                            ec_center.setOption(ec_center_option)
+                                    ],
+                                };
+                                ec_center.setOption(ec_center_option)
+                            })
+                            // ec_center_option.options[n].series[1].itemStyle.color='#000000'
                         },
                         error: function(xhr, type, errorThrown) {
 
@@ -618,8 +512,9 @@
 
                 function get_l1_data() {
                     $.ajax({
-                        url:"china/l1",
+                        url:"shanghai/l1",
                         success: function(data) {
+                            console.log("shanghai/l1 data",data)
                             ec_left1_Option.xAxis[0].data=data.day
                             ec_left1_Option.series[0].data=data.confirm
                             ec_left1_Option.series[1].data=data.suspect
@@ -635,8 +530,9 @@
 
                 function get_l2_data() {
                     $.ajax({
-                        url:"/china/l2",
+                        url:"shanghai/l2",
                         success: function(data) {
+                            console.log("shanghai/l2 data",data)
                             ec_left2_Option.xAxis[0].data=data.day
                             ec_left2_Option.series[0].data=data.confirm_add
                             ec_left2_Option.series[1].data=data.suspect_add
@@ -654,7 +550,7 @@
                 get_l1_data()
                 get_l2_data()
 
-                setInterval(gettime,1000) // 1秒刷一次
+                {#setInterval(gettime,1000) // 1秒刷一次#}
                 // setInterval(get_c1_data,1000*10) // 10秒刷一次
                 // setInterval(get_c2_data,10000*10) // 100秒刷一次
                 // setInterval(get_l1_data,10000*10) // 100秒刷一次

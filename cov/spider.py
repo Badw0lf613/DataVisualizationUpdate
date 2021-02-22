@@ -163,6 +163,8 @@ def get_ncov_data():
     url_global_his = 'http://111.231.75.86:8000/api/statistics/' # 历史全球疫情
     url_china_prov_his = 'http://111.231.75.86:8000/api/provinces/CHN/daily/' # 历史中国各省份疫情
     url_china_his = 'http://111.231.75.86:8000/api/countries/daily/?countryNames=中国' # 历史中国疫情
+    url_shanghai_his = 'http://111.231.75.86:8000/api/provinces/CHN/SH/daily/' # 历史上海疫情
+    url_shanghai_prov_his = 'http://111.231.75.86:8000/api/cities/CHN/?provinceName=上海' # 当天上海各区疫情
     # 表头
     headers = {
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36',
@@ -176,12 +178,12 @@ def get_ncov_data():
     # res_global_his = json.loads(r.text)  # json字符串转字典
     # print("loads完毕")
     # 历史中国疫情
-    r = requests.get(url_china_prov_his, headers)
+    r = requests.get(url_shanghai_prov_his, headers)
     print("request完毕")
-    res_china_prov_his = json.loads(r.text)  # json字符串转字典
+    res_shanghai_prov_his = json.loads(r.text)  # json字符串转字典
     print("loads完毕")
-    a = json.dumps(res_china_prov_his)
-    f = open('res_china_prov.json', 'w', encoding='utf-8')
+    a = json.dumps(res_shanghai_prov_his)
+    f = open('history_shanghai_prov.json', 'w', encoding='utf-8')
     f.write(a)
     f.close()
 
@@ -240,6 +242,53 @@ def process_json(fname):
             details.append(
                 [dateId, confirmedCount, confirmedIncr, curedCount, curedIncr, currentConfirmedCount,
                  currentConfirmedIncr, deadCount, deadIncr, suspectedCount, suspectedCountIncr])
+    elif fname == 'history_shanghai.json':
+        f = open(fname, 'r', encoding='utf-8')
+        content = f.read()
+        lst = json.loads(content)
+        print(type(lst))  # list
+        print(type(lst[0]))  # dict
+        f.close()
+        print(len(lst))  # 12844
+        details = []  # 详细数据
+        for i in lst:
+            dateId = i["dateId"]  # 日期
+            provinceName = i["provinceName"]  # 省份
+            provinceCode = i["provinceCode"] # 省份代码
+            confirmedCount = i["confirmedCount"]  # 累计确诊
+            confirmedIncr = i["confirmedIncr"]  # 新增确诊
+            curedCount = i["curedCount"]  # 累计治愈
+            curedIncr = i["curedIncr"]  # 新增治愈
+            currentConfirmedCount = i["currentConfirmedCount"]  # 累计现有确诊
+            currentConfirmedIncr = i["curedIncr"]  # 新增现有确诊
+            deadCount = i["deadCount"]  # 累计死亡
+            deadIncr = i["deadIncr"]  # 新增死亡
+            suspectedCount = i["suspectedCount"]  # 累计疑似
+            suspectedCountIncr = i["suspectedCountIncr"]  # 新增疑似
+            details.append(
+                [dateId, provinceName, provinceCode, confirmedCount, confirmedIncr, curedCount, curedIncr, currentConfirmedCount,
+                 currentConfirmedIncr, deadCount, deadIncr, suspectedCount, suspectedCountIncr])
+    elif fname == 'history_shanghai_prov.json':
+        f = open(fname, 'r', encoding='utf-8')
+        content = f.read()
+        lst = json.loads(content)
+        print(type(lst))  # list
+        print(type(lst[0]))  # dict
+        f.close()
+        print(len(lst))  # 12844
+        details = []  # 详细数据
+        for i in lst:
+            provinceName = i["provinceName"]  # 省份
+            provinceCode = i["provinceCode"] # 省份代码
+            cityName = i["cityName"]  # 市
+            confirmedCount = i["confirmedCount"]  # 累计确诊
+            curedCount = i["curedCount"]  # 累计治愈
+            currentConfirmedCount = i["currentConfirmedCount"]  # 现有确诊
+            deadCount = i["deadCount"]  # 累计死亡
+            suspectedCount = i["suspectedCount"]  # 现有疑似
+            details.append(
+                [provinceName, provinceCode, cityName, confirmedCount, curedCount, currentConfirmedCount,
+                 deadCount, suspectedCount])
     return details
 
 # 更新 china_history 表
@@ -280,10 +329,49 @@ def update_china_history_prov():
     finally:
         close_conn(conn, cursor)
 
+# 更新 history_shanghai 表
+def update_history_shanghai():
+    cursor = None
+    conn = None
+    try:
+        li = process_json('history_shanghai.json')  # 返回列表
+        conn, cursor = get_conn()
+        sql = "insert into history_shanghai(dateId, provinceName,provinceCode, confirmedCount, confirmedIncr, curedCount, curedIncr, currentConfirmedCount," \
+              "currentConfirmedIncr, deadCount, deadIncr, suspectedCount, suspectedCountIncr) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+        print(f"{time.asctime()}开始更新最新数据")
+        for item in li:
+            cursor.execute(sql, item)
+        conn.commit()  # 提交事务 update delete insert操作
+        print(f"{time.asctime()}更新最新数据完毕")
+    except:
+        traceback.print_exc()
+    finally:
+        close_conn(conn, cursor)
+
+# 更新 history_shanghai_prov 表
+def update_history_shanghai_prov():
+    cursor = None
+    conn = None
+    try:
+        li = process_json('history_shanghai_prov.json')  # 返回列表
+        conn, cursor = get_conn()
+        sql = "insert into history_shanghai_prov(provinceName,provinceCode,cityName, confirmedCount, curedCount, currentConfirmedCount," \
+              "deadCount,suspectedCount) values(%s,%s,%s,%s,%s,%s,%s,%s)"
+        print(f"{time.asctime()}开始更新最新数据")
+        for item in li:
+            cursor.execute(sql, item)
+        conn.commit()  # 提交事务 update delete insert操作
+        print(f"{time.asctime()}更新最新数据完毕")
+    except:
+        traceback.print_exc()
+    finally:
+        close_conn(conn, cursor)
+
 if __name__ == "__main__":
     #  insert_history()
     # update_history()
     # update_details()
     # get_ncov_data()
-    update_china_history()
+    # update_china_history()
     # update_china_history_prov()
+    update_history_shanghai_prov()

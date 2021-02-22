@@ -133,13 +133,25 @@ def get_c2_data_china(self):
         # if a.strftime("%y-%m-%d") == '20-01-29': # 34
         #     print("20-01-29")
         # 20:4,21:9,22:21,23:31,24:32,25-28:33,29:34
-        # ymd = a.strftime("%y-%m-%d")
+        ymd = a.strftime("%y-%m-%d")
         # if ymd != '20-01-20' and ymd != '20-01-21' and ymd != '20-01-22' and ymd != '20-01-23'\
         # and ymd != '20-01-24' and ymd != '20-01-25' and ymd != '20-01-26' and ymd != '20-01-27' and ymd != '20-01-28': # 33
         # 跳过1月份有缺失的数据
-        if a.strftime("%y-%m") != '20-01':
+        # if a.strftime("%y-%m") != '20-01':
+        if ymd == '21-02-18' and c=='XJ':
+            print(a,b,c,d)
+            for l in range(4):
+                # day.append('01-2'+str(i+5))  # a是datetime类型
+                provname.append('西藏')
+                provcode.append('XZ')
+                confirm.append(0)
+            # print(day)
+            # print(provname)
+            # print(provcode)
+            # print(confirm)
+        if ymd != '20-01-19' and ymd != '20-01-20' and ymd != '20-01-21' and ymd != '20-01-22' and ymd != '20-01-23' and ymd != '20-01-24': # 33
             # print(ymd)
-            day.append(a.strftime("%m-%d"))  # a是datatime类型
+            day.append(a.strftime("%m-%d"))  # a是datetime类型
             # 处理异常数据，负值直接取零
             d = d if d > 0 else 0
             provname.append(b)
@@ -149,12 +161,12 @@ def get_c2_data_china(self):
     # print(len(provname))
     # print(len(provcode))
     # print(len(confirm))
-    day = day[:368] # 取前368天即可
+    day = day[:375] # 取前375天即可
     data0 = [] # 二维数组
-    # 一共368天
-    for i in range(368):
-        a = provname[i::368]
-        b = confirm[i::368]
+    # 一共375天
+    for i in range(375):
+        a = provname[i::375]
+        b = confirm[i::375]
         # if i < 3:
         #     print(i,len(a),day[i::368])
         data1 = []
@@ -175,13 +187,82 @@ def get_c2_data_china(self):
     #     # res.append({"dateId":date,"provinceName":tup[1],"confirmedCount":int(tup[2]),"suspectedCount":int(tup[6]),
     #     #             "curedCount":int(tup[4]),"deadCount":int(tup[8])})
     #     cnt = cnt + 1
+    # 处理西藏异常值
+    print(data0[3])
+    data0[3][31]["name"] = '西藏'
+    data0[3][31]["value"] = 0
     res = []
     for tup in utils.get_c1_data_china(): # 补零
         # print(tup)
-        if tup[0].strftime("%y-%m") != '20-01':
+        if tup[0].strftime("%y-%m") != '20-01-19' and tup[0].strftime("%y-%m") != '20-01-20' and tup[0].strftime("%y-%m") != '20-01-21' and tup[0].strftime("%y-%m") != '20-01-22' and tup[0].strftime("%y-%m") != '20-01-23' and tup[0].strftime("%y-%m") != '20-01-24': # 33
+        # if tup[0].strftime("%y-%m") != '20-01':
             res.append({"dateId":tup[0].strftime("%y-%m"),"confirmedCount":int(tup[1]),"suspectedCount":int(tup[5]),
                         "curedCount":int(tup[3]),"deadCount":int(tup[7])})
-    for k in range(368-349):
+    for k in range(375-349):
         res.append({"dateId": 0, "confirmedCount": 0, "suspectedCount": 0,
                     "curedCount": 0, "deadCount": 0})
     return JsonResponse({"data":data0,"day":day, "res":res})
+
+def shanghai(request):
+    print(">>>shanghai")
+    return render(request, 'shanghai.html')
+
+def get_l1_data_shanghai(self):
+    print(">>>get_l1_data_shanghai")
+    data = utils.get_l1_data_shanghai()
+    # print("data[:10]",data[:10])
+    day,confirm,suspect,heal,dead = [],[],[],[],[]
+    for a,b,c,d,e in data[:]:
+        day.append(a.strftime("%m-%d"))
+        # a是datetime类型
+        confirm.append(b)
+        suspect.append(c)
+        heal.append(d)
+        dead.append(e)
+    return JsonResponse({"day": day, "confirm": confirm, "suspect": suspect, "heal": heal, "dead": dead})
+
+def get_l2_data_shanghai(self):
+    print(">>>get_l2_data_shanghai")
+    data = utils.get_l2_data_shanghai()
+    day, confirm_add, suspect_add, heal_add,dead_add= [], [], [],[], []
+    # print(">>>get_l2_data_china data",data)
+    for a, b, c, d, e in data[:]:
+        day.append(a.strftime("%m-%d"))  # a是datatime类型
+        # 处理异常数据，负值直接取零
+        # b = b if b > 0 else 0
+        # c = c if c > 0 else 0
+        # d = d if d > 0 else 0
+        # e = e if e > 0 else 0
+        confirm_add.append(b)
+        suspect_add.append(c)
+        heal_add.append(d)
+        dead_add.append(e)
+    return JsonResponse({"day": day, "confirm_add": confirm_add, "suspect_add": suspect_add, "heal_add": heal_add, "dead_add": dead_add})
+
+def get_c2_data_shanghai(self):
+    res = []
+    dateIdlst = []
+    provlst = []
+    # 还是用c1
+    data = utils.get_c2_data_shanghai()
+    print(">>>get_c2_data_shanghai data",data)
+    cityname = []
+    currentconfirm = []
+    confirm = []
+    suspect = []
+    heal = []
+    dead = []
+    for a, b, c, d, e, f in data[:]:
+        cityname.append(a)
+        currentconfirm.append(b)
+        confirm.append(c)
+        suspect.append(d)
+        heal.append(e)
+        dead.append(f)
+    # 一共375天
+    data1 = []
+    for j in range(len(cityname)):
+        # print(j, a[j])
+        data1.append({"name": cityname[j], "value": confirm[j]})
+    print("data1",data1)
+    return JsonResponse({"data":data1})

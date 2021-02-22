@@ -1,0 +1,192 @@
+[
+  {
+    "provinceCode": "SH",
+    "provinceName": "上海",
+    "cityName": "嘉定区",
+    "currentConfirmedCount": 0,
+    "confirmedCount": 9,
+    "suspectedCount": 0,
+    "curedCount": 7,
+    "deadCount": 2
+  },
+  {
+    "provinceCode": "SH",
+    "provinceName": "上海",
+    "cityName": "境外来沪",
+    "currentConfirmedCount": 0,
+    "confirmedCount": 1,
+    "suspectedCount": 0,
+    "curedCount": 1,
+    "deadCount": 0
+  },
+  {
+    "provinceCode": "SH",
+    "provinceName": "上海",
+    "cityName": "境外输入",
+    "currentConfirmedCount": 87,
+    "confirmedCount": 1234,
+    "suspectedCount": 4,
+    "curedCount": 1147,
+    "deadCount": 0
+  },
+  {
+    "provinceCode": "SH",
+    "provinceName": "上海",
+    "cityName": "外地来沪",
+    "currentConfirmedCount": 0,
+    "confirmedCount": 113,
+    "suspectedCount": 0,
+    "curedCount": 112,
+    "deadCount": 1
+  },
+  {
+    "provinceCode": "SH",
+    "provinceName": "上海",
+    "cityName": "奉贤区",
+    "currentConfirmedCount": 0,
+    "confirmedCount": 9,
+    "suspectedCount": 0,
+    "curedCount": 9,
+    "deadCount": 0
+  },
+  {
+    "provinceCode": "SH",
+    "provinceName": "上海",
+    "cityName": "宝山区",
+    "currentConfirmedCount": 0,
+    "confirmedCount": 22,
+    "suspectedCount": 0,
+    "curedCount": 21,
+    "deadCount": 1
+  },
+  {
+    "provinceCode": "SH",
+    "provinceName": "上海",
+    "cityName": "崇明区",
+    "currentConfirmedCount": 0,
+    "confirmedCount": 4,
+    "suspectedCount": 0,
+    "curedCount": 4,
+    "deadCount": 0
+  },
+  {
+    "provinceCode": "SH",
+    "provinceName": "上海",
+    "cityName": "徐汇区",
+    "currentConfirmedCount": 0,
+    "confirmedCount": 18,
+    "suspectedCount": 0,
+    "curedCount": 17,
+    "deadCount": 1
+  },
+  {
+    "provinceCode": "SH",
+    "provinceName": "上海",
+    "cityName": "普陀区",
+    "currentConfirmedCount": 0,
+    "confirmedCount": 11,
+    "suspectedCount": 0,
+    "curedCount": 11,
+    "deadCount": 0
+  },
+  {
+    "provinceCode": "SH",
+    "provinceName": "上海",
+    "cityName": "杨浦区",
+    "currentConfirmedCount": 0,
+    "confirmedCount": 9,
+    "suspectedCount": 0,
+    "curedCount": 9,
+    "deadCount": 0
+  },
+  {
+    "provinceCode": "SH",
+    "provinceName": "上海",
+    "cityName": "松江区",
+    "currentConfirmedCount": 0,
+    "confirmedCount": 14,
+    "suspectedCount": 0,
+    "curedCount": 14,
+    "deadCount": 0
+  },
+  {
+    "provinceCode": "SH",
+    "provinceName": "上海",
+    "cityName": "浦东新区",
+    "currentConfirmedCount": 0,
+    "confirmedCount": 68,
+    "suspectedCount": 0,
+    "curedCount": 67,
+    "deadCount": 1
+  },
+  {
+    "provinceCode": "SH",
+    "provinceName": "上海",
+    "cityName": "虹口区",
+    "currentConfirmedCount": 0,
+    "confirmedCount": 7,
+    "suspectedCount": 0,
+    "curedCount": 7,
+    "deadCount": 0
+  },
+  {
+    "provinceCode": "SH",
+    "provinceName": "上海",
+    "cityName": "金山区",
+    "currentConfirmedCount": 0,
+    "confirmedCount": 4,
+    "suspectedCount": 0,
+    "curedCount": 4,
+    "deadCount": 0
+  },
+  {
+    "provinceCode": "SH",
+    "provinceName": "上海",
+    "cityName": "长宁区",
+    "currentConfirmedCount": 0,
+    "confirmedCount": 13,
+    "suspectedCount": 0,
+    "curedCount": 13,
+    "deadCount": 0
+  },
+  {
+    "provinceCode": "SH",
+    "provinceName": "上海",
+    "cityName": "闵行区",
+    "currentConfirmedCount": 0,
+    "confirmedCount": 19,
+    "suspectedCount": 0,
+    "curedCount": 19,
+    "deadCount": 0
+  },
+  {
+    "provinceCode": "SH",
+    "provinceName": "上海",
+    "cityName": "青浦区",
+    "currentConfirmedCount": 0,
+    "confirmedCount": 6,
+    "suspectedCount": 0,
+    "curedCount": 6,
+    "deadCount": 0
+  },
+  {
+    "provinceCode": "SH",
+    "provinceName": "上海",
+    "cityName": "静安区",
+    "currentConfirmedCount": 0,
+    "confirmedCount": 16,
+    "suspectedCount": 0,
+    "curedCount": 15,
+    "deadCount": 1
+  },
+  {
+    "provinceCode": "SH",
+    "provinceName": "上海",
+    "cityName": "黄浦区",
+    "currentConfirmedCount": 0,
+    "confirmedCount": 6,
+    "suspectedCount": 0,
+    "curedCount": 6,
+    "deadCount": 0
+  }
+]
