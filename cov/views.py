@@ -201,6 +201,7 @@ def get_c2_data_china(self):
     for k in range(375-349):
         res.append({"dateId": 0, "confirmedCount": 0, "suspectedCount": 0,
                     "curedCount": 0, "deadCount": 0})
+    # print("day",day)
     return JsonResponse({"data":data0,"day":day, "res":res})
 
 def shanghai(request):
@@ -264,5 +265,9 @@ def get_c2_data_shanghai(self):
     for j in range(len(cityname)):
         # print(j, a[j])
         data1.append({"name": cityname[j], "value": confirm[j]})
-    print("data1",data1)
+    # print("data1",data1)
     return JsonResponse({"data":data1})
+
+def world(request):
+    print(">>>world")
+    return render(request, 'world.html')

@@ -29,7 +29,8 @@
                 right: 2%;
                 top: 5%;
                 color: #000000;
-                font-size: 20px;
+                font-family: "myfonts";
+                font-size: 24px;
             }
             #c1 {
                 position: absolute;
@@ -137,10 +138,10 @@
 	</head>
 	<body>
 		<div id="gyroContain">
-            <li class="dropdown" style="width: 40%;height: 0;top: 0;left: 30%;display: inline-block;">
+            <li class="dropdown" style="width:50%;height: 0;top: 0;left: 25%;display: inline-block;">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <span style="color: #000000;text-align: center;font-size: 40px;display: flex;align-items: center;justify-content: center;">
-                        全国疫情完整过程
+                        全国疫情实时追踪
                     </span>
                 </a>
                 <ul class="dropdown-menu" style="background: #cccccc;width: 40%;top: 50px;left: 30%;">
@@ -162,6 +163,13 @@
                         <a href="{% url 'shanghai' %}">
                             <span style="color: #000000;text-align: center;font-size: 40px; display: flex;align-items: center;justify-content: center;">
                                 上海疫情实时追踪
+                            </span>
+                        </a>
+                    </li>
+                    <li style="background: #cccccc;">
+                        <a href="{% url 'world' %}">
+                            <span style="color: #000000;text-align: center;font-size: 40px; display: flex;align-items: center;justify-content: center;">
+                                全球疫情模拟过程
                             </span>
                         </a>
                     </li>
@@ -469,7 +477,11 @@
                         url:"/china/c2",
                         success: function(data) {
                             // console.log(">>>data.data",data.data)
-                            // console.log(">>>data.day",data.day)
+                            {#console.log(">>>data.day",data.day)#}
+                            {#var fso=new ActiveXObject(Scripting.FileSystemObject);#}
+                            {#var f=fso.createtextfile('a.txt',2,true);#}
+                            {#f.writeLine(data.day);#}
+                            {#f.close();#}
                             // console.log(">>>data.data[0]",data.data[0]) // 这是第一天所有省份数据
                             // console.log(">>>data.data[1]",data.data[1]) // 这是第一天所有省份数据
                             // console.log(">>>data.data[2]",data.data[2]) // 这是第一天所有省份数据
@@ -498,16 +510,16 @@
                                 ec_center_option.options.push({
                                     title: [{
                                         text: data.day[n] + '全国疫情',
-                                        subtext: '累计确诊' + data.res[n]["confirmedCount"] + '\n'
+                                        subtext: '累计确诊' + data.res[n]["confirmedCount"] + '\t'
                                             + '累计疑似' + data.res[n]["suspectedCount"] + '\n'
-                                            + '累计治愈' + data.res[n]["curedCount"] + '\n'
+                                            + '累计治愈' + data.res[n]["curedCount"] + '\t'
                                             + '累计死亡' + data.res[n]["deadCount"] + '\n',
                                         left: '5%',
                                         textStyle: {
                                           fontSize: 30
                                         },
                                         subtextStyle: {
-                                          fontSize: 15
+                                          fontSize: 25
                                         }
                                     },
                                     {
@@ -655,12 +667,9 @@
                 get_l2_data()
 
                 setInterval(gettime,1000) // 1秒刷一次
-                // setInterval(get_c1_data,1000*10) // 10秒刷一次
-                // setInterval(get_c2_data,10000*10) // 100秒刷一次
-                // setInterval(get_l1_data,10000*10) // 100秒刷一次
-                // setInterval(get_l2_data,10000*10) // 100秒刷一次
-                // setInterval(get_r1_data,10000*10) // 100秒刷一次
-                // setInterval(get_r2_data,10000*10) // 100秒刷一次
+                setInterval(get_c2_data,1000*10) // 10秒刷一次
+                setInterval(get_l1_data,1000*10) // 10秒刷一次
+                setInterval(get_l2_data,1000*10) // 10秒刷一次
 
             </script>
 		</div>

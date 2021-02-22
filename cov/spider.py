@@ -160,7 +160,7 @@ def update_history():
 # 获取实时接口数据，数据来源：丁香园，文档http://ncov.leafcoder.cn/docs/#/
 def get_ncov_data():
     url_global = 'http://111.231.75.86:8000/api/statistics/latest'  # 最新全球疫情
-    url_global_his = 'http://111.231.75.86:8000/api/statistics/' # 历史全球疫情
+    url_global_his = 'http://111.231.75.86:8000/api/countries/daily/' # 历史全球疫情
     url_china_prov_his = 'http://111.231.75.86:8000/api/provinces/CHN/daily/' # 历史中国各省份疫情
     url_china_his = 'http://111.231.75.86:8000/api/countries/daily/?countryNames=中国' # 历史中国疫情
     url_shanghai_his = 'http://111.231.75.86:8000/api/provinces/CHN/SH/daily/' # 历史上海疫情
@@ -178,12 +178,12 @@ def get_ncov_data():
     # res_global_his = json.loads(r.text)  # json字符串转字典
     # print("loads完毕")
     # 历史中国疫情
-    r = requests.get(url_shanghai_prov_his, headers)
+    r = requests.get(url_global_his, headers)
     print("request完毕")
-    res_shanghai_prov_his = json.loads(r.text)  # json字符串转字典
+    res_global_his = json.loads(r.text)  # json字符串转字典
     print("loads完毕")
-    a = json.dumps(res_shanghai_prov_his)
-    f = open('history_shanghai_prov.json', 'w', encoding='utf-8')
+    a = json.dumps(res_global_his)
+    f = open('history_global.json', 'w', encoding='utf-8')
     f.write(a)
     f.close()
 
@@ -371,7 +371,7 @@ if __name__ == "__main__":
     #  insert_history()
     # update_history()
     # update_details()
-    # get_ncov_data()
+    get_ncov_data()
     # update_china_history()
     # update_china_history_prov()
-    update_history_shanghai_prov()
+    # update_history_shanghai_prov()

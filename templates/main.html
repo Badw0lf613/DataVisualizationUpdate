@@ -29,7 +29,8 @@
                 right: 2%;
                 top: 5%;
                 color: #000000;
-                font-size: 20px;
+                font-size: 24px;
+                font-family: "myfonts";
             }
             #c1 {
                 position: absolute;
@@ -47,7 +48,6 @@
                 align-items: center;
                 justify-content: center;
                 color: #000000;
-                font-size: 20px;
                 /*margin-top: 20px;*/
             }
             .txt {
@@ -60,6 +60,7 @@
             }
             .txt h2 {
                 margin: 0;
+                font-size: 40px;
             }
             #c2 {
                 position: absolute;
@@ -136,10 +137,10 @@
 	</head>
 	<body>
 		<div id="gyroContain">
-            <li class="dropdown" style="width: 40%;height: 0;top: 0;left: 30%;display: inline-block;">
+            <li class="dropdown" style="width:50%;height: 0;top: 0;left: 25%;display: inline-block;">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <span style="color: #000000;text-align: center;font-size: 40px;display: flex;align-items: center;justify-content: center;">
-                        全国疫情实时追踪
+                        全国疫情完整过程
                     </span>
                 </a>
                 <ul class="dropdown-menu" style="background: #cccccc;width: 40%;top: 50px;left: 30%;">
@@ -164,6 +165,13 @@
                             </span>
                         </a>
                     </li>
+                    <li style="background: #cccccc;">
+                        <a href="{% url 'world' %}">
+                            <span style="color: #000000;text-align: center;font-size: 40px; display: flex;align-items: center;justify-content: center;">
+                                全球疫情模拟过程
+                            </span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 {#			<div id="title">全国疫情实时追踪</div>#}
@@ -172,10 +180,10 @@
 			<div id="l2">l2</div>
             {#c1数据总览#}
 			<div id="c1">
-				<div class="num"><h1></h1></div>
-				<div class="num"><h1></h1></div>
-				<div class="num"><h1></h1></div>
-				<div class="num"><h1></h1></div>
+				<div class="num" style="color: #f31c73"><h1 style="font-size: 48px;"></h1></div>
+				<div class="num" style="color: #ff8d1a"><h1 style="font-size: 48px;"></h1></div>
+				<div class="num" style="color: #35c5c8"><h1 style="font-size: 48px;"></h1></div>
+				<div class="num" style="color: #a9b9cb"><h1 style="font-size: 48px;"></h1></div>
 				<div class="txt"><h2>累计确诊</h2></div>
 				<div class="txt"><h2>剩余疑似</h2></div>
 				<div class="txt"><h2>累计治愈</h2></div>

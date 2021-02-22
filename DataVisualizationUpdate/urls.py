@@ -37,5 +37,6 @@ urlpatterns = [
     path('shanghai/c2', views.get_c2_data_shanghai, name="shanghai/c2"),  # 获取c2
     path('shanghai/l1', views.get_l1_data_shanghai, name="shanghai/l1"),  # 获取l1
     path('shanghai/l2', views.get_l2_data_shanghai, name="shanghai/l2"),  # 获取l2
+    path('world', views.world, name="world"),  # 全球页面
 
 ]
