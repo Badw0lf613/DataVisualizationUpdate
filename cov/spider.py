@@ -317,8 +317,11 @@ def update_china_history_prov():
     try:
         li = process_json('history_china_prov.json')  # 返回列表
         conn, cursor = get_conn()
-        sql = "insert into history_china_prov(dateId, provinceName,provinceCode, confirmedCount, confirmedIncr, curedCount, curedIncr, currentConfirmedCount," \
-              "currentConfirmedIncr, deadCount, deadIncr, suspectedCount, suspectedCountIncr) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+        sql = "insert into history_china_prov(dateId, provinceName,provinceCode, " \
+              "confirmedCount, confirmedIncr, curedCount, curedIncr, " \
+              "currentConfirmedCount,currentConfirmedIncr, deadCount, " \
+              "deadIncr, suspectedCount, suspectedCountIncr) " \
+              "values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
         print(f"{time.asctime()}开始更新最新数据")
         for item in li:
             cursor.execute(sql, item)
@@ -336,8 +339,10 @@ def update_history_shanghai():
     try:
         li = process_json('history_shanghai.json')  # 返回列表
         conn, cursor = get_conn()
-        sql = "insert into history_shanghai(dateId, provinceName,provinceCode, confirmedCount, confirmedIncr, curedCount, curedIncr, currentConfirmedCount," \
-              "currentConfirmedIncr, deadCount, deadIncr, suspectedCount, suspectedCountIncr) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+        sql = "insert into history_shanghai(dateId, provinceName,provinceCode, confirmedCount," \
+              " confirmedIncr, curedCount, curedIncr, currentConfirmedCount," \
+              "currentConfirmedIncr, deadCount, deadIncr, suspectedCount, suspectedCountIncr) " \
+              "values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
         print(f"{time.asctime()}开始更新最新数据")
         for item in li:
             cursor.execute(sql, item)
@@ -355,7 +360,8 @@ def update_history_shanghai_prov():
     try:
         li = process_json('history_shanghai_prov.json')  # 返回列表
         conn, cursor = get_conn()
-        sql = "insert into history_shanghai_prov(provinceName,provinceCode,cityName, confirmedCount, curedCount, currentConfirmedCount," \
+        sql = "insert into history_shanghai_prov(provinceName,provinceCode," \
+              "cityName, confirmedCount, curedCount, currentConfirmedCount," \
               "deadCount,suspectedCount) values(%s,%s,%s,%s,%s,%s,%s,%s)"
         print(f"{time.asctime()}开始更新最新数据")
         for item in li:
@@ -371,7 +377,8 @@ if __name__ == "__main__":
     #  insert_history()
     # update_history()
     # update_details()
-    get_ncov_data()
+    # get_ncov_data()
     # update_china_history()
     # update_china_history_prov()
+    update_history_shanghai()
     # update_history_shanghai_prov()

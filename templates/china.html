@@ -141,7 +141,7 @@
             <li class="dropdown" style="width:50%;height: 0;top: 0;left: 25%;display: inline-block;">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <span style="color: #000000;text-align: center;font-size: 40px;display: flex;align-items: center;justify-content: center;">
-                        全国疫情实时追踪
+                        全国疫情完整过程
                     </span>
                 </a>
                 <ul class="dropdown-menu" style="background: #cccccc;width: 40%;top: 50px;left: 30%;">
@@ -178,6 +178,17 @@
 			<div id="tim"></div>
 			<div id="l1" >l1</div>
 			<div id="l2">l2</div>
+            {#c1数据总览#}
+			<div id="c1">
+				<div class="num" style="color: #f31c73"><h1 style="font-size: 48px;"></h1></div>
+				<div class="num" style="color: #ff8d1a"><h1 style="font-size: 48px;"></h1></div>
+				<div class="num" style="color: #35c5c8"><h1 style="font-size: 48px;"></h1></div>
+				<div class="num" style="color: #a9b9cb"><h1 style="font-size: 48px;"></h1></div>
+				<div class="txt"><h2>累计确诊</h2></div>
+				<div class="txt"><h2>剩余疑似</h2></div>
+				<div class="txt"><h2>累计治愈</h2></div>
+				<div class="txt"><h2>累计死亡</h2></div>
+			</div>
 			<div id="c2">c2</div>
             <script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
             <script src="{% static 'js/echarts.min.js' %}"></script>
@@ -384,7 +395,7 @@
                         timeline: {
                             axisType: 'category',
                             autoPlay: false,
-                            playInterval: 500,
+                            playInterval: 1000,
                             symbolSize: 0,
                             left: '0%',
                             right: '5%',
@@ -458,6 +469,7 @@
             </script>
             <script src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
             <script type="text/javascript">
+                var n = 0
                 function gettime() {
                     $.ajax({
                         url: "/time",
@@ -471,6 +483,24 @@
 
                         }
                     });
+                }
+                function get_c1_data(n) {
+                    $.ajax({
+                        url: "/china/c1",
+                        success: function(data) {
+                            console.log(data.res[n]["suspectedCount"],n)
+                            $(".num h1").eq(0).text(data.day[n] + '全国疫情');
+                            {#$(".num h1").eq(0).text(data.res[n]["confirmedCount"]);#}
+                            $(".num h1").eq(1).text(data.res[n]["suspectedCount"]);
+                            $(".num h1").eq(2).text(data.res[n]["curedCount"]);
+                            $(".num h1").eq(3).text(data.res[n]["deadCount"]);
+                        },
+                        error: function(xhr, type, errorThrown) {
+
+                        }
+                    })
+                    n = n + 1;
+                    return n
                 }
                 function get_c2_data() {
                     $.ajax({
@@ -508,20 +538,22 @@
                                 // console.log("res1",res1)
                                 // console.log("res2",res2)
                                 ec_center_option.options.push({
-                                    title: [{
-                                        text: data.day[n] + '全国疫情',
-                                        subtext: '累计确诊' + data.res[n]["confirmedCount"] + '\t'
-                                            + '累计疑似' + data.res[n]["suspectedCount"] + '\n'
-                                            + '累计治愈' + data.res[n]["curedCount"] + '\t'
-                                            + '累计死亡' + data.res[n]["deadCount"] + '\n',
-                                        left: '5%',
-                                        textStyle: {
-                                          fontSize: 30
-                                        },
-                                        subtextStyle: {
-                                          fontSize: 25
-                                        }
-                                    },
+                                    title: [
+                                    // {
+                                    //     text: data.day[n] + '全国疫情',
+                                    //     subtext: '累计确诊' + data.res[n]["confirmedCount"] + '\t'
+                                    //         + '剩余疑似' + data.res[n]["suspectedCount"] + '\n'
+                                    //         + '累计治愈' + data.res[n]["curedCount"] + '\t'
+                                    //         + '累计死亡' + data.res[n]["deadCount"] + '\n',
+                                    //     left: '5%',
+                                    //     textStyle: {
+                                    //         fontSize: 30
+                                    //     },
+                                    //     subtextStyle: {
+                                    //         fontSize: 25,
+                                    //         color: 'red'
+                                    //     }
+                                    // },
                                     {
                                         show: true,
                                         text: '感染人数前十的省份',
@@ -552,7 +584,7 @@
                                         {#coordinateSystem: 'geo3D',#}
                                         roam: true, //拖动和缩放
                                         zoom: 0.8,
-                                        left: '0%',
+                                        left: '-5%',
                                         itemStyle: {
                                             normal: {
                                                 borderWidth: .5, //区域边框宽度
@@ -662,14 +694,14 @@
                     })
                 }
                 gettime()
+                n = get_c1_data(n)
                 get_c2_data()
                 get_l1_data()
                 get_l2_data()
-
                 setInterval(gettime,1000) // 1秒刷一次
-                setInterval(get_c2_data,1000*10) // 10秒刷一次
-                setInterval(get_l1_data,1000*10) // 10秒刷一次
-                setInterval(get_l2_data,1000*10) // 10秒刷一次
+                setInterval(function() { n = get_c1_data(n); },1000) // 500毫秒刷一次
+                {#setInterval(get_l1_data,1000*10) // 10秒刷一次#}
+                {#setInterval(get_l2_data,1000*10) // 10秒刷一次#}
 
             </script>
 		</div>
