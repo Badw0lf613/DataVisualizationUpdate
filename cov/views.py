@@ -271,3 +271,8 @@ def get_c2_data_shanghai(self):
 def world(request):
     print(">>>world")
     return render(request, 'world.html')
+
+
+def worldnow(request):
+    print(">>>worldnow")
+    return render(request, 'worldnow.html')

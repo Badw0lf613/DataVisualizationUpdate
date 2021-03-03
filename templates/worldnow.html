@@ -1,0 +1,599 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>疫情数据可视化</title>
+        <link href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+        <style type="text/css">
+            body {
+                margin: 0;
+                background: #FFFFE0;
+            }
+            #title {
+                position: absolute;
+                width: 40%;
+                height: 10%;
+                top: 0;
+                left: 30%;
+                color: #000000;
+                font-size: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            #tim {
+                position: absolute;
+                {#width: 30%;#}
+                height: 10%;
+                right: 2%;
+                top: 5%;
+                color: #000000;
+                font-size: 24px;
+                font-family: "myfonts";
+            }
+            #c1 {
+                position: absolute;
+                width: 40%;
+                height: 25%;
+                top: 10%;
+                left: 30%;
+                color: #000000
+                /* background: #777777; */
+            }
+            .num {
+                width: 25%;
+                float: left;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #000000;
+                font-size: 20px;
+            }
+            .txt {
+                width: 25%;
+                float: left;
+                font-family: "微软雅黑 Light";
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .txt h2 {
+                font-size: 20px;
+                margin: 0;
+            }
+            #c2 {
+                position: absolute;
+                width: 70%;
+                height: 90%;
+                top: 10%;
+                left: 30%;
+                /*background: red;*/
+            }
+            #l1 {
+                position: absolute;
+                width: 30%;
+                height: 45%;
+                top: 10%;
+                left: 0;
+                /*background: #666666;*/
+            }
+            #l2 {
+                position: absolute;
+                width: 55%;
+                height: 45%;
+                top: 55%;
+                left: 0;
+                /*background: #777;*/
+            }
+            #r1 {
+                position: absolute;
+                width: 30%;
+                height: 45%;
+                top: 10%;
+                right: 0;
+                /*background: #666666;*/
+            }
+            #r2 {
+                position: absolute;
+                width: 50%;
+                height: 50%;
+                top: 45%;
+                right: 0;
+                /*background: #777;*/
+            }
+            /* 此处是设置自动匹配横屏，以适应手机显示 使用下面定义的id:gyroContain   */
+            @media screen and (orientation: portrait) {
+                html{
+                    width : 100vmin;
+                    height : 100vmax;
+                }
+                body{
+                    width : 100vmin;
+                    height : 100vmax;
+                }
+                #gyroContain{
+                    width : 100vmax;
+                    height : 100vmin;
+                    transform-origin: top left;
+                    transform: rotate(90deg) translate(0,-100vmin);
+                }
+              }
+            @media screen and (orientation: landscape) {
+                html{
+                    width : 100vmax;
+                    height : 100vmin;
+                }
+                body{
+                    width : 100vmax;
+                    height : 100vmin;
+                }
+                #gyroContain{
+                    width : 100vmax;
+                    height : 100vmin;
+                }
+            }
+
+        </style>
+	</head>
+	<body>
+		<div id="gyroContain">
+            <li class="dropdown" style="width:50%;height: 0;top: 0;left: 25%;display: inline-block;">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <span style="color: #000000;text-align: center;font-size: 40px;display: flex;align-items: center;justify-content: center;">
+                        全球疫情实时追踪
+                    </span>
+                </a>
+                <ul class="dropdown-menu" style="background: #cccccc;width: 40%;top: 50px;left: 30%;">
+                    <li style="background: #cccccc;">
+                        <a href="{% url 'main' %}">
+                            <span style="color: #000000;text-align: center;font-size: 40px; display: flex;align-items: center;justify-content: center;">
+                                全国疫情实时追踪
+                            </span>
+                        </a>
+                    </li>
+                    <li style="background: #cccccc;">
+                        <a href="{% url 'china' %}">
+                            <span style="color: #000000;text-align: center;font-size: 40px; display: flex;align-items: center;justify-content: center;">
+                                全国疫情完整过程
+                            </span>
+                        </a>
+                    </li>
+                    <li style="background: #cccccc;">
+                        <a href="{% url 'shanghai' %}">
+                            <span style="color: #000000;text-align: center;font-size: 40px; display: flex;align-items: center;justify-content: center;">
+                                上海疫情实时追踪
+                            </span>
+                        </a>
+                    </li>
+                    <li style="background: #cccccc;">
+                        <a href="{% url 'world' %}">
+                            <span style="color: #000000;text-align: center;font-size: 40px; display: flex;align-items: center;justify-content: center;">
+                                全球疫情模拟过程
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+			<div id="tim"></div>
+			<div id="l1">l1</div>
+			<div id="l2">l2</div>
+            <div id="r2">r2</div>
+            {#c1数据总览#}
+			<div id="c1">
+                <div class="txt"><h2 style="margin: 0;">较昨日</h2></div>
+                <div class="num" style="color: #f31c73"><h1 style="font-size: 20px;margin: 0;"></h1></div>
+                <div class="txt"><h2 style="margin: 0;">国外现存确诊</h2></div>
+				<div class="num" style="color: #f31c73"><h1 style="font-size: 20px;margin: 0;"></h1></div>
+                <br>
+                <div class="txt"><h2 style="margin: 0;">较昨日</h2></div>
+                <div class="num" style="color: #ff8d1a"><h1 style="font-size: 20px;margin: 0;"></h1></div>
+                <div class="txt"><h2 style="margin: 0;">国外累计确诊</h2></div>
+                <div class="num" style="color: #ff8d1a"><h1 style="font-size: 20px;margin: 0;"></h1></div>
+                <br>
+                <div class="txt"><h2 style="margin: 0;">较昨日</h2></div>
+                <div class="num" style="color: #a9b9cb"><h1 style="font-size: 20px;margin: 0;"></h1></div>
+                <div class="txt"><h2 style="margin: 0;">国外死亡人数</h2></div>
+				<div class="num" style="color: #a9b9cb"><h1 style="font-size: 20px;margin: 0;"></h1></div>
+                <br>
+			</div>
+{#			<div id="c2">c2</div>#}
+            <script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+            <script src="{% static 'js/echarts.min.js' %}"></script>
+            <script src="{% static 'js/echarts-gl.js' %}"></script>
+            <script src="{% static 'js/bmap.min.js' %}"></script>
+            <script src="{% static 'js/china.js' %}"></script>
+            <script src="{% static 'js/echarts-map-china.js'%}"></script>
+            <script src="{% static 'js/echarts-theme-shine.js'%}"></script>
+            <script src="{% static 'js/countUp.min.js'%}"></script>
+            <script src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
+            <script type="text/javascript">
+                function gettime() {
+                    $.ajax({
+                        url: "/time",
+                        timeout: 10000, //超时时间设置为10秒；
+                        dataType:'json',
+                        success: function(data) {
+                            // console.log("gettime data",data)
+                            $("#tim").html(data)
+                        },
+                        error: function(xhr, type, errorThrown) {
+
+                        }
+                    });
+                }
+                $.ajaxSetup({cache:false});
+                $(function() {
+                    function load_statistics() {
+                        //获取统计数据
+                        $.ajax({
+                            url: "http://111.231.75.86:8000/api/statistics/latest",
+                            dataType: "json"
+                        }).done(function(data) {
+                            $(".num h1").eq(1).text(data.internationalStatistics.currentConfirmedCount);
+                            $(".num h1").eq(3).text(data.internationalStatistics.confirmedCount);
+                            $(".num h1").eq(5).text(data.internationalStatistics.deadCount);
+                            if (data.internationalStatistics.confirmedIncr > 0)
+                                $(".num h1").eq(2).text('+' + data.internationalStatistics.confirmedIncr);
+                            else
+                                $(".num h1").eq(2).text(data.internationalStatistics.confirmedIncr);
+                            if (data.internationalStatistics.deadIncr > 0)
+                                $(".num h1").eq(4).text('+' + data.internationalStatistics.deadIncr);
+                            else
+                                $(".num h1").eq(0).text(data.internationalStatistics.deadIncr);
+                            if (data.internationalStatistics.currentConfirmedIncr > 0)
+                                $(".num h1").eq(0).text('+' + data.internationalStatistics.currentConfirmedIncr);
+                            else
+                                $(".num h1").eq(0).text(data.internationalStatistics.currentConfirmedIncr);
+                        }).fail(function(jqXHR, textStatus) {
+                            console.log("Ajax Error: ", textStatus);
+                        });
+                    }
+                    //获取排行数据
+                    const l1 = echarts.init(document.getElementById("l1"), "vintage");
+                    const l1Opt = {
+                        tooltip: {
+                            trigger: "axis",
+                            axisPointer: {
+                                type: "shadow"
+                            },
+                            formatter: function(params) {
+                                const param = params[0];
+                                const marker = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:#e6b600;"></span>';
+                                const suffix = '<span style="margin-left:5px;font-size:12px;">亿元</span>';
+                                return param.name + "<br />" +
+                                    marker + "排名：" + (param.dataIndex+1) + "<br />" +
+                                    marker + "现存确诊：" + param.value;
+                            }
+                        },
+                        grid: {
+                            top: 10,
+                            bottom: 10,
+                            left: 60
+                        },
+                        xAxis: {
+                            show: false,
+                            type: "value"
+                        },
+                        yAxis: {
+                            type: "category",
+                            inverse: true,
+                            axisLine: {show: false},
+                            axisTick: {show: false},
+                            axisLabel: {
+                                fontSize: 12,
+                                color: "#b0c2f9"
+                            }
+                        },
+                        series: [{
+                            name: "各国确诊人数排行",
+                            type: "bar",
+                            barCategoryGap: "60%",
+                            label: {
+                                show: true,
+                                position: "right",
+                                fontSize: 12,
+                                color: "#188df0",
+                                emphasis: {
+                                    color: "#e6b600"
+                                }
+                            },
+                            itemStyle: {
+                                normal: {
+                                    color: new echarts.graphic.LinearGradient(
+                                        0, 1, 1, 1,
+                                        [
+                                            {offset: 0, color: '#b0c2f9'},
+                                            {offset: 0.5, color: '#188df0'},
+                                            {offset: 1, color: '#185bff'}
+                                        ]
+                                    )
+                                },
+                                emphasis: {
+                                    color: new echarts.graphic.LinearGradient(
+                                        0, 1, 1, 1,
+                                        [
+                                            {offset: 0, color: '#b0c2f9'},
+                                            {offset: 0.7, color: '#e6b600'},
+                                            {offset: 1, color: '#ceac09'}
+                                        ]
+                                    )
+                                }
+                            }
+                        }]
+                    };
+                    l1.setOption(l1Opt);
+                    function load_country_rank_list() {
+                        $.ajax({
+                            url: "http://111.231.75.86:8000/api/countries/",
+                            dataType: "json"
+                        }).done(function() {
+                            $("#l1").addClass("chart-done");
+                        }).done(function(data) {
+                            var sortable = [];
+                            for (var i in data) {
+                                sortable.push([data[i], data[i].currentConfirmedCount]);
+                            }
+                            data = sortable.sort(function(a, b) {
+                                return b[1] - a[1];
+                            });
+                            data = data.slice(0, 10)
+                            const xData = [];
+                            const yData = [];
+                            for(let i in data) {
+                                xData.push(data[i][0].currentConfirmedCount);
+                                yData.push(data[i][0].countryName);
+                            }
+                            l1.setOption({
+                                yAxis: {
+                                    data: yData
+                                },
+                                series: [{
+                                    name: "现存确诊排行",
+                                    data: xData
+                                }]
+                            });
+                        }).fail(function(jqXHR) {
+                            console.log("Ajax Fail: ", jqXHR.status, jqXHR.statusText);
+                        });
+                    }
+                    //获取美国疫情发展情况
+                    const l2 = echarts.init(document.getElementById("l2"), "vintage");
+                    const l2Opt = {
+                        tooltip: {
+                            trigger: "axis",
+                            axisPointer: {
+                                type: "none"
+                            }
+                        },
+                        legend: {
+                            left: "center",
+                            top: 3,
+                            itemWidth: 15,
+                            itemHeight: 10,
+                            textStyle: {
+                                fontSize: 12,
+                                color: "#b0c2f9"
+                            },
+                            data: ["现存确诊", "累计确诊", "死亡人数"]
+                        },
+                        grid: {
+                            top: 40,
+                            bottom: 70,
+                            left: 60,
+                            right: 60
+                        },
+
+                        dataZoom: [{
+                            startValue: 20200123
+                        }, {
+                            type: 'inside'
+                        }],
+                        xAxis: {
+                            type: "category",
+                            axisLine: {
+                                lineStyle: {color: "#b0c2f9"}
+                            },
+                            axisTick: {show: false},
+                            axisLabel: {
+                                fontSize: 12,
+                                color: "#b0c2f9"
+                            }
+                        },
+                        yAxis: [{
+                            name: "人数",
+                            type: "value",
+                            axisLine: {
+                                lineStyle: {color: "#b0c2f9"}
+                            },
+                            splitLine: {show: false},
+                            axisTick: {color: "#b0c2f9"},
+                            axisLabel: {
+                                fontSize: 12,
+                                color: "#b0c2f9",
+                                formatter: (value, index) => {
+                                    return parseInt(value / 10000) + "万";
+                                }
+                            }
+                        }],
+                        series: [{
+                            name: "现存确诊",
+                            type: "line",
+                            smooth: true,
+                            markPoint: {
+                                itemStyle: {
+                                    color: "rgba(119, 96, 246, 1)"
+                                },
+                                data: [{
+                                    name: "最大值",
+                                    type: "max"
+                                }]
+                            }
+                        }, {
+                            name: "累计确诊",
+                            type: "line",
+                            smooth: true,
+                            itemStyle: {
+                                color: function(params) {
+                                    if(params.dataIndex >= 10) {
+                                        return "rgba(230, 182, 0, 0.5)";
+                                    }
+                                    return "rgba(230, 182, 0, 1)";
+                                }
+                            }
+                        }, {
+                            name: "死亡人数",
+                            type: "line",
+                            smooth: true,
+                            markPoint: {
+                                itemStyle: {
+                                    color: "rgba(230, 182, 0, 1)"
+                                },
+                                data: [{
+                                    name: "最大值",
+                                    type: "max"
+                                }]
+                            }
+                        }]
+                    };
+                    l2.setOption(l2Opt);
+
+                    function load_usa_daily_list() {
+                        $.ajax({
+                            url: "http://111.231.75.86:8000/api/countries/USA/daily/",
+                            dataType: "json"
+                        }).done(function() {
+                            $("#l2").addClass("chart-done");
+                        }).done(function(data) {
+                            //console.log('Data: ', data);
+                            const xData = [];
+                            const yData1 = [];
+                            const yData2 = [];
+                            const yData3 = [];
+                            for(let i in data) {
+                                xData.push(data[i].dateId);
+                                yData1.push(data[i].currentConfirmedCount);
+                                yData2.push(data[i].confirmedCount);
+                                yData3.push(data[i].deadCount);
+                            }
+                            l2.setOption({
+                                xAxis: {
+                                    data: xData,
+                                },
+                                series: [{
+                                    name: "现存确诊",
+                                    data: yData1
+                                }, {
+                                    name: "累计确诊",
+                                    data: yData2
+                                }, {
+                                    name: "死亡人数",
+                                    data: yData3
+                                }]
+                            });
+                        }).fail(function(jqXHR) {
+                            console.log("Ajax Fail: ", jqXHR.status, jqXHR.statusText);
+                        });
+                    }
+                    //获取分类数据
+                    const r2 = echarts.init(document.getElementById("r2"), "vintage");
+                    const r2Opt = {
+                        tooltip: {
+                            trigger: "item",
+                            formatter: "{b0}<br />累计确诊：{c0}人<br />全球占比：{d0}%"
+                        },
+                        legend: {
+                            type: "scroll",
+                            orient: "vertical",
+                            padding: 0,
+                            top: 15,
+                            right: 0,
+                            itemGap: 5,
+                            itemWidth: 10,
+                            itemHeight: 10,
+                            textStyle: {
+                                fontSize: 10,
+                                color: "#b0c2f9"
+                            }
+                        },
+                        series: [{
+                            name: "各国累计确诊占比",
+                            type: "pie",
+                            center: ["30%", "55%"],
+                            radius: ['50%', '80%'],
+                            avoidLabelOverlap: true,
+                            label: {
+                                show: false,
+                                position: 'center'
+                            },
+                            labelLine: {
+                                show: false
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true,
+                                    fontSize: '30',
+                                    fontWeight: 'bold'
+                                }
+                            },
+                        }]
+                    };
+                    r2.setOption(r2Opt);
+
+                    function load_countries() {
+                        $.ajax({
+                            url: "http://111.231.75.86:8000/api/countries/",
+                            dataType: "json"
+                        }).done(function() {
+                            $("#r2").addClass("chart-done");
+                        }).done(function(data) {
+                            var sortable = [];
+                            for (var i in data) {
+                                sortable.push([data[i], data[i].confirmedCount]);
+                            }
+                            data = sortable.sort(function(a, b) {
+                                return b[1] - a[1];
+                            });
+                            const chartData = [];
+                            for(let i in data) {
+                                chartData.push({
+                                    name: data[i][0].countryName,
+                                    value: data[i][0].confirmedCount
+                                });
+                            }
+                            r2.setOption({
+                                series: [{
+                                    name: "各国累计确诊占比",
+                                    data: chartData
+                                }]
+                            });
+                        }).fail(function(jqXHR) {
+                            console.log("Ajax Fail: ", jqXHR.status, jqXHR.statusText);
+                        });
+                    }
+
+                    function load_page() {
+                        load_statistics();
+                        load_country_rank_list();
+                        load_usa_daily_list();
+                        load_countries();
+                    }
+
+                    var _timerPie1;
+                    var seconds = new Date().getSeconds();
+                    window.setTimeout(function () {
+                        _timerPie1 = window.setInterval(function () { //数据动态展现
+                            load_page();
+                        }, 60000);
+                        load_page();
+                    }, 6000 - seconds * 100);
+                    console.log(6000 - seconds * 100)
+                    load_page();
+                });
+
+                gettime()
+                setInterval(gettime,1000) // 1秒刷一次
+            </script>
+		</div>
+	</body>
+</html>
