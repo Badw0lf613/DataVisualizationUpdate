@@ -73,8 +73,8 @@
             #l1 {
                 position: absolute;
                 width: 32%;
-                height: 45%;
-                top: 10%;
+                height: 50%;
+                top: 5%;
                 left: 0;
                 /*background: #666666;*/
             }
@@ -179,16 +179,16 @@
 			<div id="l1" >l1</div>
 			<div id="l2">l2</div>
             {#c1数据总览#}
-			<div id="c1">
-				<div class="num" style="color: #f31c73"><h1 style="font-size: 48px;"></h1></div>
-				<div class="num" style="color: #ff8d1a"><h1 style="font-size: 48px;"></h1></div>
-				<div class="num" style="color: #35c5c8"><h1 style="font-size: 48px;"></h1></div>
-				<div class="num" style="color: #a9b9cb"><h1 style="font-size: 48px;"></h1></div>
-				<div class="txt"><h2>累计确诊</h2></div>
-				<div class="txt"><h2>剩余疑似</h2></div>
-				<div class="txt"><h2>累计治愈</h2></div>
-				<div class="txt"><h2>累计死亡</h2></div>
-			</div>
+{#			<div id="c1">#}
+{#				<div class="num" style="color: #f31c73"><h1 style="font-size: 48px;"></h1></div>#}
+{#				<div class="num" style="color: #ff8d1a"><h1 style="font-size: 48px;"></h1></div>#}
+{#				<div class="num" style="color: #35c5c8"><h1 style="font-size: 48px;"></h1></div>#}
+{#				<div class="num" style="color: #a9b9cb"><h1 style="font-size: 48px;"></h1></div>#}
+{#				<div class="txt"><h2>累计确诊</h2></div>#}
+{#				<div class="txt"><h2>剩余疑似</h2></div>#}
+{#				<div class="txt"><h2>累计治愈</h2></div>#}
+{#				<div class="txt"><h2>累计死亡</h2></div>#}
+{#			</div>#}
 			<div id="c2">c2</div>
             <script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
             <script src="{% static 'js/echarts.min.js' %}"></script>
@@ -197,96 +197,141 @@
             <script type="text/javascript">
                 var ec_left1 = echarts.init(document.getElementById('l1'), "vintage");
 
+                // var ec_left1_Option = {
+                //     //标题样式
+                //     title: {
+                //         text: "全国累计趋势",
+                //         textStyle: {
+                //             color: '#000000',
+                //         },
+                //         left: 'left',
+                //     },
+                //     tooltip: {
+                //         trigger: 'axis',
+                //         //指示器
+                //         axisPointer: {
+                //             type: 'line',
+                //             lineStyle: {
+                //                 color: '#7171C6'
+                //             }
+                //         },
+                //     },
+                //     legend: {
+                //         data: ['累计确诊', '累计疑似', "累计治愈", "累计死亡"],
+                //         left: "right"
+                //     },
+//
+                //     //图形位置
+                //     grid: {
+                //         left: '0%',
+                //         right: '0%',
+                //         bottom: '0%',
+                //         top: 50,
+                //         containLabel: true
+                //     },
+                //     xAxis: [{
+                //         type: 'category',
+                //         //x轴坐标点开始与结束点位置都不在最边缘
+                //         // boundaryGap : true,
+                //         data: []//['01.20', '01.21', '01.22']
+                //     }],
+                //     yAxis: [{
+                //         type: 'value',
+                //         //y轴字体设置
+                //         axisLabel: {
+                //             show: true,
+                //             color: 'white',
+                //             fontSize: 12,
+                //             formatter: function(value) {
+                //                 if (value >= 1000) {
+                //                     value = value / 1000 + 'k';
+                //                 }
+                //                 return value;
+                //             }
+                //         },
+                //         //y轴线设置显示
+                //         axisLine: {
+                //             show: true
+                //         },
+                //         //与x轴平行的线样式
+                //         splitLine: {
+                //             show: true,
+                //             lineStyle: {
+                //                 color: '#17273B',
+                //                 width: 1,
+                //                 type: 'solid',
+                //             }
+                //         }
+                //     }],
+                //     series: [{
+                //         name: "累计确诊",
+                //         type: 'line',
+                //         smooth: true,
+                //         data: []//[260, 406, 529]
+                //     }, {
+                //         name: "累计疑似",
+                //         type: 'line',
+                //         smooth: true,
+                //         data: []//[54, 37, 3935]
+                //     },
+                //         {
+                //         name: "累计治愈",
+                //         type: 'line',
+                //         smooth: true,
+                //         data: []//[25, 25, 25]
+                //     }, {
+                //         name: "累计死亡",
+                //         type: 'line',
+                //         smooth: true,
+                //         data: []//[6, 9, 17]
+                //     }]
+                // };
+
                 var ec_left1_Option = {
-                    //标题样式
-                    title: {
-                        text: "全国累计趋势",
-                        textStyle: {
-                            color: '#000000',
+                    baseOption: {
+                        timeline: {
+                            axisType: 'category',
+                            autoPlay: false,
+                            playInterval: 500,
+                            symbolSize: 0,
+                            left: '0%',
+                            right: '5%',
+                            bottom: '0%',
+                            width: '100%',
+                            data: [],
+                            tooltip: {
+                                formatter: []
+                            },
                         },
-                        left: 'left',
-                    },
-                    tooltip: {
-                        trigger: 'axis',
-                        //指示器
-                        axisPointer: {
-                            type: 'line',
-                            lineStyle: {
-                                color: '#7171C6'
-                            }
+                        tooltip: {},
+                        legend: {
+                            // data: ['abbc', '剩余疑似', '累计治愈', '累计死亡'],
+                            // left: "right"
+                            right: '0%',
+                            top: '5%'
                         },
-                    },
-                    legend: {
-                        data: ['累计确诊', '累计疑似', "累计治愈", "累计死亡"],
-                        left: "right"
-                    },
-
-                    //图形位置
-                    grid: {
-                        left: '0%',
-                        right: '0%',
-                        bottom: '0%',
-                        top: 50,
-                        containLabel: true
-                    },
-                    xAxis: [{
-                        type: 'category',
-                        //x轴坐标点开始与结束点位置都不在最边缘
-                        // boundaryGap : true,
-                        data: []//['01.20', '01.21', '01.22']
-                    }],
-                    yAxis: [{
-                        type: 'value',
-                        //y轴字体设置
-                        axisLabel: {
-                            show: true,
-                            color: 'white',
-                            fontSize: 12,
-                            formatter: function(value) {
-                                if (value >= 1000) {
-                                    value = value / 1000 + 'k';
-                                }
-                                return value;
-                            }
+                        //图形位置
+                        grid: {
+                            left: '0%',
+                            right: '0%',
+                            bottom: '10%',
+                            top: 50,
+                            containLabel: true
                         },
-                        //y轴线设置显示
-                        axisLine: {
-                            show: true
+                        xAxis: [{
+                            type: 'category',
+                            //x轴坐标点开始与结束点位置都不在最边缘
+                            // boundaryGap : true,
+                            // data: ['累计确诊','剩余疑似','累计治愈','累计死亡']//['01.20', '01.21', '01.22']
+                        }],
+                        yAxis: [{
+                            type: 'value',
+                        }],
                         },
-                        //与x轴平行的线样式
-                        splitLine: {
-                            show: true,
-                            lineStyle: {
-                                color: '#17273B',
-                                width: 1,
-                                type: 'solid',
-                            }
-                        }
-                    }],
-                    series: [{
-                        name: "累计确诊",
-                        type: 'line',
-                        smooth: true,
-                        data: []//[260, 406, 529]
-                    }, {
-                        name: "累计疑似",
-                        type: 'line',
-                        smooth: true,
-                        data: []//[54, 37, 3935]
-                    },
-                        {
-                        name: "累计治愈",
-                        type: 'line',
-                        smooth: true,
-                        data: []//[25, 25, 25]
-                    }, {
-                        name: "累计死亡",
-                        type: 'line',
-                        smooth: true,
-                        data: []//[6, 9, 17]
-                    }]
+                        animationDurationUpdate: 0,
+                        animationEasingUpdate: 'quinticInOut',
+                        options: [],
                 };
-
                 ec_left1.setOption(ec_left1_Option)
 
             </script>
@@ -395,7 +440,7 @@
                         timeline: {
                             axisType: 'category',
                             autoPlay: false,
-                            playInterval: 1000,
+                            playInterval: 500,
                             symbolSize: 0,
                             left: '0%',
                             right: '5%',
@@ -484,24 +529,24 @@
                         }
                     });
                 }
-                function get_c1_data(n) {
-                    $.ajax({
-                        url: "/china/c1",
-                        success: function(data) {
-                            console.log(data.res[n]["suspectedCount"],n)
-                            $(".num h1").eq(0).text(data.day[n] + '全国疫情');
-                            {#$(".num h1").eq(0).text(data.res[n]["confirmedCount"]);#}
-                            $(".num h1").eq(1).text(data.res[n]["suspectedCount"]);
-                            $(".num h1").eq(2).text(data.res[n]["curedCount"]);
-                            $(".num h1").eq(3).text(data.res[n]["deadCount"]);
-                        },
-                        error: function(xhr, type, errorThrown) {
-
-                        }
-                    })
-                    n = n + 1;
-                    return n
-                }
+                //function get_c1_data(n) {
+                //    $.ajax({
+                //        url: "/china/c1",
+                //        success: function(data) {
+                //            console.log(data.res[n]["suspectedCount"],n)
+                //            $(".num h1").eq(0).text(data.day[n] + '全国疫情');
+                //            {#$(".num h1").eq(0).text(data.res[n]["confirmedCount"]);#}
+                //            $(".num h1").eq(1).text(data.res[n]["suspectedCount"]);
+                //            $(".num h1").eq(2).text(data.res[n]["curedCount"]);
+                //            $(".num h1").eq(3).text(data.res[n]["deadCount"]);
+                //        },
+                //        error: function(xhr, type, errorThrown) {
+                //
+                //        }
+                //    })
+                //    n = n + 1;
+                //    return n
+                //}
                 function get_c2_data() {
                     $.ajax({
                         url:"/china/c2",
@@ -539,21 +584,21 @@
                                 // console.log("res2",res2)
                                 ec_center_option.options.push({
                                     title: [
-                                    // {
-                                    //     text: data.day[n] + '全国疫情',
-                                    //     subtext: '累计确诊' + data.res[n]["confirmedCount"] + '\t'
-                                    //         + '剩余疑似' + data.res[n]["suspectedCount"] + '\n'
-                                    //         + '累计治愈' + data.res[n]["curedCount"] + '\t'
-                                    //         + '累计死亡' + data.res[n]["deadCount"] + '\n',
-                                    //     left: '5%',
-                                    //     textStyle: {
-                                    //         fontSize: 30
-                                    //     },
-                                    //     subtextStyle: {
-                                    //         fontSize: 25,
-                                    //         color: 'red'
-                                    //     }
-                                    // },
+                                    {
+                                        text: data.day[n] + '',
+                                        subtext: '累计确诊' + data.res[n]["confirmedCount"] + '\t'
+                                            + '剩余疑似' + data.res[n]["suspectedCount"] + '\n'
+                                            + '累计治愈' + data.res[n]["curedCount"] + '\t'
+                                            + '累计死亡' + data.res[n]["deadCount"] + '\n',
+                                        left: '5%',
+                                        textStyle: {
+                                            fontSize: 30
+                                        },
+                                        subtextStyle: {
+                                            fontSize: 25,
+                                            color: 'red'
+                                        }
+                                    },
                                     {
                                         show: true,
                                         text: '感染人数前十的省份',
@@ -664,12 +709,52 @@
                     $.ajax({
                         url:"china/l1",
                         success: function(data) {
-                            ec_left1_Option.xAxis[0].data=data.day
-                            ec_left1_Option.series[0].data=data.confirm
-                            ec_left1_Option.series[1].data=data.suspect
-                            ec_left1_Option.series[2].data=data.heal
-                            ec_left1_Option.series[3].data=data.dead
-                            ec_left1.setOption(ec_left1_Option)
+                            // ec_left1_Option.xAxis[0].data=data.day
+                            // ec_left1_Option.series[0].data=data.confirm
+                            // ec_left1_Option.series[1].data=data.suspect
+                            // ec_left1_Option.series[2].data=data.heal
+                            // ec_left1_Option.series[3].data=data.dead
+                            console.log("l1", data.day, data)
+                            ec_left1_Option.baseOption.timeline.data=data.day
+                            ec_left1_Option.baseOption.timeline.tooltip.formatter=data.day
+                            for (var n = 0; n < data.data.length; n++)
+                            {
+                                ec_left1_Option.options.push({
+                                    title: [
+                                        {
+                                            text: data.day[n] + '',
+                                            left: '0%',
+                                            textStyle: {
+                                                fontSize: 30
+                                            },
+                                        },
+                                    ],
+                                    //配置属性
+                                    series: [{
+                                        name: "累计确诊",
+                                        type: 'bar',
+                                        smooth: true,
+                                        data: [data.res[n]["confirmedCount"]] // [,data.res[n]["suspectedCount"],data.res[n]["curedCount"],data.res[n]["deadCount"]]//[260, 406, 529]
+                                    },
+                                    {
+                                        name: "剩余疑似",
+                                        type: 'bar',
+                                        smooth: true,
+                                        data: [data.res[n]["suspectedCount"]]//[260, 406, 529]
+                                    },{
+                                        name: "累计治愈",
+                                        type: 'bar',
+                                        smooth: true,
+                                        data: [data.res[n]["curedCount"]]//[260, 406, 529]
+                                    },{
+                                        name: "累计死亡",
+                                        type: 'bar',
+                                        smooth: true,
+                                        data: [data.res[n]["deadCount"]]//[260, 406, 529]
+                                    }, ]
+                                })
+                                ec_left1.setOption(ec_left1_Option)
+                            }
                         },
                         error: function(xhr, type, errorThrown) {
 
@@ -694,15 +779,14 @@
                     })
                 }
                 gettime()
-                n = get_c1_data(n)
-                get_c2_data()
+                {#n = get_c1_data(n)#}
                 get_l1_data()
+                get_c2_data()
                 get_l2_data()
                 setInterval(gettime,1000) // 1秒刷一次
-                setInterval(function() { n = get_c1_data(n); },1000) // 500毫秒刷一次
+                {#setInterval(function() { n = get_c1_data(n); },1000) // 500毫秒刷一次#}
                 {#setInterval(get_l1_data,1000*10) // 10秒刷一次#}
                 {#setInterval(get_l2_data,1000*10) // 10秒刷一次#}
-
             </script>
 		</div>
 	</body>
