@@ -84,6 +84,7 @@
                 height: 45%;
                 top: 55%;
                 left: 0;
+                right: 5px;
                 /*background: #777;*/
             }
             #r1 {
@@ -96,10 +97,11 @@
             }
             #r2 {
                 position: absolute;
-                width: 50%;
+                width: 45%;
                 height: 50%;
                 top: 45%;
-                right: 0;
+                left: 55%;
+                right: 5px;
                 /*background: #777;*/
             }
             /* 此处是设置自动匹配横屏，以适应手机显示 使用下面定义的id:gyroContain   */
@@ -163,6 +165,13 @@
                         <a href="{% url 'shanghai' %}">
                             <span style="color: #000000;text-align: center;font-size: 40px; display: flex;align-items: center;justify-content: center;">
                                 上海疫情实时追踪
+                            </span>
+                        </a>
+                    </li>
+                    <li style="background: #cccccc;">
+                        <a href="{% url 'worldnow' %}">
+                            <span style="color: #000000;text-align: center;font-size: 40px; display: flex;align-items: center;justify-content: center;">
+                                全球疫情实时追踪
                             </span>
                         </a>
                     </li>
