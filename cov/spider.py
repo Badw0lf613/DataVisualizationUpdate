@@ -17,16 +17,16 @@ def get_tencent_data():
     r = requests.get(url, headers)
     res = json.loads(r.text)  # json字符串转字典
     data_all = json.loads(res['data'])
-    # 历史数据
-    r_his = requests.get(url_his, headers)
-    res_his = json.loads(r_his.text)
-    data_his = json.loads(res_his['data'])
-    print(">>>data_his",data_his)
     print(">>>data_all",data_all)
     a = json.dumps(data_all)
     f = open('data_all.json', 'w', encoding='utf-8')
     f.write(a)
     f.close()
+    # 历史数据
+    r_his = requests.get(url_his, headers)
+    res_his = json.loads(r_his.text)
+    data_his = json.loads(res_his['data'])
+    print(">>>data_his",data_his)
     b = json.dumps(data_his)
     f = open('data_his.json', 'w', encoding='utf-8')
     f.write(b)
