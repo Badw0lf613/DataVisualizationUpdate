@@ -177,15 +177,41 @@ def get_ncov_data():
     # print("request完毕")
     # res_global_his = json.loads(r.text)  # json字符串转字典
     # print("loads完毕")
-    # 历史中国疫情
-    r = requests.get(url_global_his, headers)
+    # 历史中国各省份疫情完整过程【会更新】
+    r = requests.get(url_china_prov_his, headers)
     print("request完毕")
-    res_global_his = json.loads(r.text)  # json字符串转字典
+    history_china_prov = json.loads(r.text)  # json字符串转字典
     print("loads完毕")
-    a = json.dumps(res_global_his)
-    f = open('history_global.json', 'w', encoding='utf-8')
+    a = json.dumps(history_china_prov)
+    f = open('history_china_prov.json', 'w', encoding='utf-8')
     f.write(a)
     f.close()
+    # 上海疫情实时追踪【会更新】
+    r = requests.get(url_shanghai_prov_his, headers)
+    print("request完毕")
+    history_shanghai_prov = json.loads(r.text)  # json字符串转字典
+    print("loads完毕")
+    a = json.dumps(history_shanghai_prov)
+    f = open('history_shanghai_prov.json', 'w', encoding='utf-8')
+    f.write(a)
+    f.close()
+    # 上海疫情历史数据【会更新】
+    r = requests.get(url_shanghai_his, headers)
+    print("request完毕")
+    history_shanghai = json.loads(r.text)  # json字符串转字典
+    print("loads完毕")
+    a = json.dumps(history_shanghai)
+    f = open('history_shanghai.json', 'w', encoding='utf-8')
+    f.write(a)
+    f.close()
+    # r = requests.get(url_global_his, headers)
+    # print("request完毕")
+    # res_global_his = json.loads(r.text)  # json字符串转字典
+    # print("loads完毕")
+    # a = json.dumps(res_global_his)
+    # f = open('history_global.json', 'w', encoding='utf-8')
+    # f.write(a)
+    # f.close()
 
 # 处理ncov接口的json
 def process_json(fname):
@@ -375,10 +401,10 @@ def update_history_shanghai_prov():
 
 if __name__ == "__main__":
     #  insert_history()
-    # update_history()
-    # update_details()
+    update_history()
+    update_details()
     # get_ncov_data()
     # update_china_history()
     # update_china_history_prov()
-    update_history_shanghai()
+    # update_history_shanghai()
     # update_history_shanghai_prov()
