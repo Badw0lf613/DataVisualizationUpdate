@@ -5,7 +5,7 @@ function gettime() {
         dataType:'json',
 		success: function(data) {
 		    // console.log("gettime data",data)
-			$("#tim").html(data)
+            $("#tim").html('18120255姚施越\t'+data)
 		},
 		error: function(xhr, type, errorThrown) {
 
