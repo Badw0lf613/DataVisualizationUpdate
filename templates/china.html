@@ -180,6 +180,13 @@
                             </span>
                         </a>
                     </li>
+                    <li style="background: #cccccc;">
+                        <a href="admin">
+                            <span style="color: #000000;text-align: center;font-size: 40px; display: flex;align-items: center;justify-content: center;">
+                                疫情数据后台管理
+                            </span>
+                        </a>
+                    </li>
                 </ul>
             </li>
 			<div id="tim"></div>
@@ -716,11 +723,6 @@
                     $.ajax({
                         url:"china/l1",
                         success: function(data) {
-                            // ec_left1_Option.xAxis[0].data=data.day
-                            // ec_left1_Option.series[0].data=data.confirm
-                            // ec_left1_Option.series[1].data=data.suspect
-                            // ec_left1_Option.series[2].data=data.heal
-                            // ec_left1_Option.series[3].data=data.dead
                             console.log("l1", data.day, data)
                             ec_left1_Option.baseOption.timeline.data=data.day
                             ec_left1_Option.baseOption.timeline.tooltip.formatter=data.day

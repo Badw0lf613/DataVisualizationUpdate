@@ -18,7 +18,7 @@ from django.urls import path
 from cov import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls), # 后台管理页面
     path('', views.main, name="main"),  # 主页面
     path('time', views.get_time, name="time"),  # 获取时间
     path('c1', views.get_c1_data, name="c1"),  # 获取c1

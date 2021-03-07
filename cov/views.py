@@ -82,13 +82,13 @@ def get_l1_data_china(self):
     # print("data[:10]",data[:10])
     day,confirm,suspect,heal,dead = [],[],[],[],[]
     for a,b,c,d,e in data[:]:
-        day.append(a.strftime("%m-%d"))
-        # a是datetime类型
+        day.append(a.strftime("%m-%d")) # a是datetime类型
         confirm.append(b)
         suspect.append(c)
         heal.append(d)
         dead.append(e)
-    return JsonResponse({"day": day, "confirm": confirm, "suspect": suspect, "heal": heal, "dead": dead})
+    return JsonResponse({"day": day, "confirm": confirm,
+         "suspect": suspect, "heal": heal, "dead": dead})
 
 def get_l2_data_china(self):
     data = utils.get_l2_data_china()

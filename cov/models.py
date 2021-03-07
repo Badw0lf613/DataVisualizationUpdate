@@ -13,7 +13,8 @@ class Details(models.Model): # 详情表
     class Meta:
         managed = True
         db_table = 'details'
-
+        verbose_name = '全国各省份疫情历史数据（近半个月）'
+        verbose_name_plural = verbose_name
 
 class History(models.Model):
     ds = models.DateTimeField(primary_key=True)                         # 日期
@@ -29,6 +30,8 @@ class History(models.Model):
     class Meta:
         managed = True
         db_table = 'history'
+        verbose_name = '全国疫情历史数据（近三个月）'
+        verbose_name_plural = verbose_name
 
 class History_China(models.Model):
     dateId = models.DateTimeField(blank=True, null=True)                    # 日期
@@ -46,6 +49,8 @@ class History_China(models.Model):
     class Meta:
         managed = True
         db_table = 'history_china'
+        verbose_name = '全国疫情历史数据'
+        verbose_name_plural = verbose_name
 
 
 class History_China_Prov(models.Model):
@@ -66,6 +71,8 @@ class History_China_Prov(models.Model):
     class Meta:
         managed = True
         db_table = 'history_china_prov'
+        verbose_name = '全国各省份疫情历史数据'
+        verbose_name_plural = verbose_name
 
 class History_Shanghai(models.Model):
     dateId = models.DateTimeField(blank=True, null=True)                    # 日期
@@ -85,6 +92,8 @@ class History_Shanghai(models.Model):
     class Meta:
         managed = True
         db_table = 'history_shanghai'
+        verbose_name = '上海疫情历史数据'
+        verbose_name_plural = verbose_name
 
 class History_Shanghai_Prov(models.Model):
     provinceName = models.CharField(max_length=50, blank=True, null=True)   # 省
@@ -99,3 +108,5 @@ class History_Shanghai_Prov(models.Model):
     class Meta:
         managed = True
         db_table = 'history_shanghai_prov'
+        verbose_name = '上海各区疫情实时数据'
+        verbose_name_plural = verbose_name
