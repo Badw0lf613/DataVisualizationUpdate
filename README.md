@@ -5,5 +5,4 @@
 
 ![image](https://github.com/Badw0lf613/DataVisualizationUpdate/blob/master/images/图片1.png)
 
-图1 全国疫情实时追踪
-
+<center>图1 全国疫情实时追踪</center>
